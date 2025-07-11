@@ -4,6 +4,7 @@
 * {
     font-family: Outfit;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 .prata-regular {
@@ -14,6 +15,39 @@
 
 ::-webkit-scrollbar {
   width: 0;
+}
+
+.spinner {
+   width: 56px;
+   height: 56px;
+   display: grid;
+   border-radius: 50%;
+   -webkit-mask: radial-gradient(farthest-side,#0000 40%,#804564 41%);
+   background: linear-gradient(0deg ,rgb(196, 119, 160) 50%,rgb(180, 80, 133) 0) center/4.5px 100%,
+        linear-gradient(90deg,rgba(188, 86, 142, 0.797) 50%,rgba(185, 111, 150, 0.75) 0) center/100% 4.5px;
+   background-repeat: no-repeat;
+   animation: spinner-d3o0rx 1s infinite steps(12);
+}
+
+.spinner::before,
+.spinner::after {
+   content: "";
+   grid-area: 1/1;
+   border-radius: 50%;
+   background: inherit;
+   opacity: 0.915;
+   transform: rotate(30deg);
+}
+
+.spinner::after {
+   opacity: 0.83;
+   transform: rotate(60deg);
+}
+
+@keyframes spinner-d3o0rx {
+   100% {
+      transform: rotate(1turn);
+   }
 }
 
 @media (max-width: 640px) {

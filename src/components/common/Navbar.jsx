@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import {assets} from '../../assets/frontend_assets/assets'
 import { Link, NavLink } from 'react-router-dom';
+import { useShopContext } from '../../contexts/ShopContext';
 
 const Navbar = () => {
+
+    const {setShowSearchbar} = useShopContext();
 
     const menus = [`HOME`,`COLLECTION`,`ABOUT`,`CONTACT`,`Admin Panel`];
     const [hrActive,setHrActive] = useState(menus[0]);
@@ -35,14 +38,16 @@ const Navbar = () => {
 
       {/* search profile and cart icon */}
       <div className="flex items-center justify-center gap-5 sm:gap-10">
-        <img src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
+        <img src={assets.search_icon} alt="" className='w-5 cursor-pointer' onClick={() => setShowSearchbar(prev => !prev)}/>
         <div className='group relative'>
             <img src={assets.profile_icon} alt="" className='w-5 min-w-5 cursor-pointer'/>
             <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
                 <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
-                    <p className='cursor-pointer hover:text-black'>My Profile</p>
-                    <p className='cursor-pointer hover:text-black'>Orders</p>
-                    <p className='cursor-pointer hover:text-black'>Logout</p>
+                    {
+                        ['My Profile','Orders','Logout'].map((ele) => (
+                            <p key={ele} className='cursor-pointer hover:text-black'>{ele}</p>
+                        ))
+                    }
                 </div>
             </div>
         </div>

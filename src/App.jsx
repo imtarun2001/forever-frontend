@@ -11,6 +11,7 @@ import Navbar from "./components/common/Navbar"
 import Contact from "./pages/Contact"
 import AdminPanel from "./pages/AdminPanel"
 import Footer from "./components/common/Footer"
+import Searchbar from "./components/common/Searchbar"
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
       {/* navbar */}
       <Navbar/>
 
+      {/* searchbar */}
+      <Searchbar/>
 
       {/* Routes */}
       <Routes>
