@@ -84,7 +84,7 @@ const Product = () => {
       {
         products.map((item) => (
           item.category === product.category &&
-          <NavLink to={`/product/${item._id}`} key={item._id} className="bg-gray-300 flex flex-col justify-start items-center gap-2.5 rounded text-nowrap p-2">
+          <NavLink to={`/product/${item._id}`} key={item._id} className="bg-red-100 flex flex-col justify-start items-center gap-2.5 rounded text-nowrap p-2">
             <img src={item.image[0]} alt="" className="w-15"/>
             <p className="text-lg font-semibold">{item.name.slice(0,10)}</p>
             <p className="text-sm font-light">{currency +''+item.price}</p>
