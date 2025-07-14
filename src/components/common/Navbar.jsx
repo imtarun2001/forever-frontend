@@ -5,7 +5,7 @@ import { useShopContext } from '../../contexts/ShopContext';
 
 const Navbar = () => {
 
-    const {setShowSearchbar} = useShopContext();
+    const {setShowSearchbar,cartSize} = useShopContext();
 
     const menus = [`HOME`,`COLLECTION`,`ABOUT`,`CONTACT`,`Admin Panel`];
     const [hrActive,setHrActive] = useState(menus[0]);
@@ -53,7 +53,7 @@ const Navbar = () => {
         </div>
         <Link className='relative' to='/cart'>
             <img src={assets.cart_icon} alt="" className='w-5 min-w-5'/>
-            <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>10</p>
+            <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{cartSize()}</p>
         </Link>
         <img src={assets.menu_icon} onClick={() => setMenuActive(true)} className='w-5 cursor-pointer sm:hidden' alt="" />
       </div>

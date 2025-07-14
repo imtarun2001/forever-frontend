@@ -15,7 +15,7 @@ import Searchbar from "./components/common/Searchbar"
 
 const App = () => {
   return (
-    <div className="px-4 sm:px-[4vw] md:px-[5vw] lg:px-[6vw] bg-white min-h-screen flex flex-col justify-between items-center">
+    <div className="px-4 sm:px-[4vw] md:px-[5vw] lg:px-[6vw] bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center">
 
       {/* navbar */}
       <Navbar/>

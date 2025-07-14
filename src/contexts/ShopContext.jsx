@@ -9,14 +9,51 @@ export const ShopContextProvider = ({children}) => {
     const delivery_fee = 10;
 
     const [searchText,setSearchText] = useState('');
-    const [showSearchbar,setShowSearchbar] = useState(true);
-    const [quantity,setQuantity] = useState(1);
-    const increaseQuantity = () => {
-        quantity < 5 ? setQuantity(prev => prev + 1) : toast.warning('Can not add more than 5 items');
+    const [showSearchbar,setShowSearchbar] = useState(false);
+    const [selectedSize,setSelectedSize] = useState(null);
+    const [relatedProducts,setRelatedProducts] = useState([]);
+    const [cartProducts,setCartProducts] = useState({});
+
+    const addToCart = async (itemId,size) => {
+        if(!size) {
+            toast.error('Please Select Size');
+            return;
+        }
+        let cartProductsCopy = structuredClone(cartProducts);
+        if(cartProductsCopy[itemId]) {
+            if(cartProductsCopy[itemId][size]) {
+                cartProductsCopy[itemId][size] += 1;
+            }
+            else {
+                cartProductsCopy[itemId][size] = 1;
+            }
+        }
+        else {
+            cartProductsCopy[itemId] = {};
+            cartProductsCopy[itemId][size] = 1;
+        }
+        toast.success('Product Added to Cart');
+        console.log("cartProductsCopy ",cartProductsCopy);
+        setCartProducts(cartProductsCopy);
     };
-    const decreaseQuantity = () => {
-        quantity > 1 ? setQuantity(prev => prev - 1) : toast.warning('Minimum 1 item has to be added');
-    };
+
+    const cartSize = () => {
+        let totalItems = 0;
+        for(let itemId in cartProducts) {
+            for(let size in cartProducts[itemId]) {
+                if(cartProducts[itemId][size] > 0) {
+                    totalItems += cartProducts[itemId][size];
+                }
+            }
+        }
+        return totalItems;
+    }
+
+
+
+
+
+
 
     const values = {
         products,
@@ -24,9 +61,11 @@ export const ShopContextProvider = ({children}) => {
         delivery_fee,
         searchText,setSearchText,
         showSearchbar,setShowSearchbar,
-        quantity,setQuantity,
-        increaseQuantity,
-        decreaseQuantity
+        selectedSize,setSelectedSize,
+        relatedProducts,setRelatedProducts,
+        cartProducts,setCartProducts,
+        addToCart,
+        cartSize,
     };
 
     return <ShopContext.Provider value={values}>

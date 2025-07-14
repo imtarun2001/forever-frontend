@@ -8,7 +8,7 @@ const Hero = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setWhiteBackground(prev => !prev);
-        },6000);
+        },2500);
         return () => clearInterval(interval);
     },[]);
 

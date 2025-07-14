@@ -17,8 +17,8 @@ const Searchbar = () => {
 
   return onlyShowSearchbarInCollection ?
     <div className="w-full border-t bg-gray-50 text-center flex justify-center sm:justify-end items-center">
-        <div className="w-3/4 sm:w-[22%] inline-flex items-center justify-center border border-gray-400 px-5 py-2 sm:py4 my-5 mx-3 rounded-full">
-            <input type="text" name="search" id="search" placeholder="search" value={searchText} onChange={(event) => setSearchText(event.target.value)} className="flex-1 outline-none bg-inherit text-sm"/>
+        <div className="flex items-center justify-center border border-gray-400 px-5 py-2 sm:py4 my-5 mx-3 rounded-full">
+            <input type="text" name="search" id="search" placeholder="search" value={searchText} onChange={(event) => setSearchText(event.target.value)} className="flex-1 w-full outline-none bg-inherit text-sm"/>
             <img src={assets.search_icon} alt="" className="w-4"/>
         </div>
         <img src={assets.cross_icon} alt="" className="inline w-3 cursor-pointer" onClick={() => setShowSearchbar(false)}/>
