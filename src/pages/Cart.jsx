@@ -71,19 +71,21 @@ const Cart = () => {
 
       {/* -----------------------------cart total---------------------------- */}
       <div className="w-full flex justify-center sm:justify-end items-center">
-        <div className="p-10 border rounded-xl flex flex-col justify-center items-center gap-2.5">
+        <div className="p-5 w-full sm:w-1/3 border rounded-xl bg-emerald-100 flex flex-col justify-center items-center gap-5">
           <div className="w-full flex justify-start items-center"><Title text1={'CART'} text2={'TOTALS'}/></div>
-          <div className="w-full flex justify-between items-center py-1.5">
-            <div>Subtotal :</div><div>{currency + '' + subTotal}</div>
+          <div className="w-full flex flex-col">
+            <div className="w-full flex justify-between items-center py-1.5">
+              <div>Subtotal :</div><div>{currency + '' + subTotal}</div>
+            </div>
+            <div className="w-full flex justify-between items-center py-1.5">
+              <div>Shipping Fee :</div><div>{currency + '' + delivery_fee}</div>
+            </div>
+            <div className="w-full flex justify-between items-center border-b-2 py-1.5">
+              <div className="font-bold">Total :</div><div className="font-bold">{`${currency} ${delivery_fee + subTotal}`}</div>
+            </div>
           </div>
-          <div className="w-full flex justify-between items-center py-1.5">
-            <div>Shipping Fee :</div><div>{currency + '' + delivery_fee}</div>
-          </div>
-          <div className="w-full flex justify-between items-center border-b-2 py-1.5">
-            <div className="font-bold">Total :</div><div className="font-bold">{`${currency} ${delivery_fee + subTotal}`}</div>
-          </div>
-          <div className="w-full flex justify-center items-center">
-            <button className="px-10 py-2 rounded border bg-emerald-500 font-bold">CHECKOUT</button>
+          <div className="w-full flex justify-end items-center">
+            <button className="px-7 py-2 rounded border bg-emerald-300 font-semibold hover:bg-emerald-50">CHECKOUT</button>
           </div>
         </div>
       </div>
