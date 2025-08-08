@@ -11,7 +11,7 @@ const Product = ({product}) => {
                 <img src={product.image[0]} alt="" className="hover:scale-110 transition ease-in-out"/>
             </div>
             <div className="font-bold pt-3 pb-1">{`${currency} ${product.price}`}</div>
-            <div className="font-medium text-sm">{product.name}</div>
+            <div className="font-medium text-sm text-wrap">{product.name}</div>
     </Link>
   )
 }
