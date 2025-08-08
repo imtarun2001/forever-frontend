@@ -3,7 +3,7 @@ import { useState } from "react"
 const DescriptionAndReviews = () => {
   const [active,setActive] = useState('Description');
   return (
-    <div className="w-full flex flex-col justify-start items-start">
+    <div className="w-full flex flex-col justify-start items-start text-wrap">
         <div className="w-full flex justify-start items-center">
             {
                 ['Description','Reviews (122)'].map((ele) => (
