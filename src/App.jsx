@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Home from "./pages/Home"
 import Collection from "./pages/Collection"
 import About from "./pages/About"
@@ -12,8 +12,36 @@ import Contact from "./pages/Contact"
 import AdminPanel from "./pages/AdminPanel"
 import Footer from "./components/common/Footer"
 import Searchbar from "./components/common/Searchbar"
+import IntroVideo from "./components/common/IntroVideo"
+import { useEffect, useState } from "react"
 
 const App = () => {
+
+    const location = useLocation();
+  const [introVideo, setIntroVideo] = useState(false);
+
+  useEffect(() => {
+    // Show intro only when app first loads and route is "/"
+    if (location.pathname === "/") {
+      setIntroVideo(true);
+    }
+  }, []); // Runs only on first render
+
+  useEffect(() => {
+    let timer;
+    if (introVideo) {
+      timer = setTimeout(() => {
+        setIntroVideo(false);
+      }, 5000); // hide after 5s
+    }
+    return () => clearTimeout(timer);
+  }, [introVideo]);
+
+  if (introVideo) {
+    return <IntroVideo />;
+  }
+
+
   return (
     <div className="px-2 sm:px-4 md:px-6 lg:px-8 bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center text-nowrap">
 
