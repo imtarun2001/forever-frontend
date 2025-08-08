@@ -9,7 +9,7 @@ const Title = ({text1,text2,center,desc}) => {
         </p>
         <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
       </div>
-      <p className="w-full text-center text-xs sm:text-sm md:text-base text-gray-600">{desc}</p>
+      <p className="w-full text-center text-xs sm:text-sm md:text-base text-gray-600 text-wrap">{desc}</p>
     </div>
   )
   :
