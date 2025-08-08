@@ -15,7 +15,7 @@ import Searchbar from "./components/common/Searchbar"
 
 const App = () => {
   return (
-    <div className="px-4 sm:px-[4vw] md:px-[5vw] lg:px-[6vw] bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center">
+    <div className="px-2 sm:px-4 md:px-6 lg:px-8 bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center text-nowrap">
 
       {/* navbar */}
       <Navbar/>
@@ -32,9 +32,10 @@ const App = () => {
         <Route path="/product/:productId" element={<Product/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/placeorder" element={<PlaceOrder/>}/>
+        <Route path="/place-order" element={<PlaceOrder/>}/>
         <Route path="/orders" element={<Orders/>}/>
         <Route path="/adminpanel" element={<AdminPanel/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
 
 

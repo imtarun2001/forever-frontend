@@ -31,15 +31,15 @@ const Collection = () => {
     setSubCategory(prev => [...prev,event.target.value]);
   }
   const applyFiltering = () => {
-    let filteredProducts = [...products];
-    if(showSearchbar && searchText) filteredProducts = filteredProducts.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
-    if(category.length > 0) filteredProducts = filteredProducts.filter(item => category.includes(item.category));
-    if(subCategory.length > 0) filteredProducts = filteredProducts.filter(item => subCategory.includes(item.subCategory));
-    applySorting(filteredProducts);
+    let filterProductsCopy = [...products];
+    if(showSearchbar && searchText) filterProductsCopy = filterProductsCopy.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()));
+    if(category.length > 0) filterProductsCopy = filterProductsCopy.filter(item => category.includes(item.category));
+    if(subCategory.length > 0) filterProductsCopy = filterProductsCopy.filter(item => subCategory.includes(item.subCategory));
+    applySorting(filterProductsCopy);
   }
 
-  const applySorting = (filteredProducts) => {
-    let sortedProducts = [...filteredProducts];
+  const applySorting = (filterProductsCopy) => {
+    let sortedProducts = [...filterProductsCopy];
     if(sortBy === 'low-high') sortedProducts = sortedProducts.sort((a,b) => a.price - b.price);
     else if(sortBy === 'high-low') sortedProducts = sortedProducts.sort((a,b) => b.price - a.price);
     setFilterProducts(sortedProducts);
@@ -48,7 +48,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFiltering();
-  },[category,subCategory,sortBy,searchText,showSearchbar]);
+  },[category,subCategory,sortBy,searchText]);
 
   return (
     <div className="w-full border-t py-10 border-gray-200 flex flex-col sm:flex-row justify-between items-start gap-5 relative">
@@ -72,9 +72,7 @@ const Collection = () => {
       {/* all collections */}
       <div className="flex flex-col gap-5 sm:gap-10 w-full sm:w-3/4 sm:order-1">
           {/* title */}
-          <div className="flex justify-start items-center">
-            <Title text1={'ALL'} text2={'COLLECTIONS'}/>
-          </div>
+          <Title text1={'ALL'} text2={'COLLECTIONS'} center={false}/>
 
           {/* products */}
           <Products filterProducts={filterProducts}/>

@@ -1,12 +1,12 @@
-import { useParams } from "react-router-dom"
-import { useShopContext } from "../contexts/ShopContext";
+import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
+import Title from "../components/common/Title";
 import Spinner from "../components/common/Spinner";
-import { toast } from "react-toastify";
+import { useShopContext } from "../contexts/ShopContext";
 import ProductImages from "../components/productPage/ProductImages";
 import ProductDetails from "../components/productPage/ProductDetails";
 import RelatedProducts from "../components/productPage/RelatedProducts";
-import Title from "../components/common/Title";
 import DescriptionAndReviews from "../components/productPage/DescriptionAndReviews";
 
 const Product = () => {
@@ -16,30 +16,30 @@ const Product = () => {
   const {productId} = useParams();
 
   const [product,setProduct] = useState(null);
-  const [index,setIndex] = useState(0);
 
-  const fetchProduct = async () => {
+  const fetchProducts = () => {
     try {
-      const response = await products.find(item => item._id === productId);
+      const response = products.find(item => item._id === productId);
       setProduct(response);
     } catch (error) {
-      console.log(err);    
+      console.log(error);    
       toast.error('error while fetching product');    
     }
   };
 
   useEffect(() => {
-    fetchProduct();
-  },[productId]);
+    fetchProducts();
+  },[productId,products]);
 
   return product ?
+  
   <div className="w-full md:min-h-[70vh] flex flex-col justify-center items-center gap-10">
 
     {/* ------------------------------top div------------------------------- */}
     <div className="w-full py-5 flex flex-col lg:flex-row justify-center items-center gap-2.5">
       
       {/* -----------------------------------laptop : product left && phone : product top containing product images--------------------------------- */}
-      <ProductImages product={product} index={index} setIndex={setIndex}/>
+      <ProductImages product={product}/>
 
       {/* -------------------------vertical line for laptop-------------------------------- */}
       <p className="hidden lg:block h-[80vh] border border-red-100"></p>
@@ -63,8 +63,10 @@ const Product = () => {
 
 
   </div>
-    :
-    <Spinner/>
+
+  :
+
+  <Spinner/>
 }
 
 export default Product

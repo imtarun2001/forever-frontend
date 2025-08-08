@@ -7,6 +7,17 @@
     scroll-behavior: smooth;
 }
 
+a.active hr {
+   display: block;
+}
+
+@media (max-width: 640px) {
+  a.active {
+    background-color: white;
+    color: black;
+  }
+}
+
 .prata-regular {
   font-family: "Prata", serif;
   font-weight: 400;
@@ -48,11 +59,4 @@
    100% {
       transform: rotate(1turn);
    }
-}
-
-@media (max-width: 640px) {
-  a.active {
-    background-color: white;
-    color: black;
-  }
 }

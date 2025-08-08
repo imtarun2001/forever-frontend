@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ShopContext = createContext();
 
@@ -10,14 +11,13 @@ export const ShopContextProvider = ({children}) => {
 
     const [searchText,setSearchText] = useState('');
     const [showSearchbar,setShowSearchbar] = useState(false);
-    const [selectedSize,setSelectedSize] = useState(null);
-    const [relatedProducts,setRelatedProducts] = useState([]);
     const [cartProducts,setCartProducts] = useState({});
+    const [subTotal,setSubTotal] = useState(0);
+    const navigate = useNavigate();
 
     const addToCart = async (itemId,size) => {
         if(!size) {
-            toast.error('Please Select Size');
-            return;
+            return toast.error('Please Select Size');
         }
         let cartProductsCopy = structuredClone(cartProducts);
         if(cartProductsCopy[itemId]) {
@@ -33,7 +33,6 @@ export const ShopContextProvider = ({children}) => {
             cartProductsCopy[itemId][size] = 1;
         }
         toast.success('Product Added to Cart');
-        console.log("cartProductsCopy ",cartProductsCopy);
         setCartProducts(cartProductsCopy);
     };
 
@@ -50,6 +49,13 @@ export const ShopContextProvider = ({children}) => {
     }
 
 
+    const updateCart = async (itemId,size,quantity) => {
+        let cartProductsCopy = structuredClone(cartProducts);
+        cartProductsCopy[itemId][size] = quantity;
+        setCartProducts(cartProductsCopy);
+    }
+
+
 
 
 
@@ -59,13 +65,14 @@ export const ShopContextProvider = ({children}) => {
         products,
         currency,
         delivery_fee,
+        navigate,
         searchText,setSearchText,
         showSearchbar,setShowSearchbar,
-        selectedSize,setSelectedSize,
-        relatedProducts,setRelatedProducts,
         cartProducts,setCartProducts,
+        subTotal,setSubTotal,
         addToCart,
         cartSize,
+        updateCart
     };
 
     return <ShopContext.Provider value={values}>
