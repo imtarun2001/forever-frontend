@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="hidden sm:flex items-center gap-5 text-sm text-gray-700">
         {
             menus.map((menu, index) =>
-                <NavLink key={index} to={`${menu === menus[0] ? '/' : menu.toLowerCase()}`} className='flex flex-col items-center gap-1'>
+                <NavLink key={index} to={menu === menus[0] ? `/` : `/${menu.toLowerCase()}`} className='flex flex-col items-center gap-1'>
                     <span className="cursor-pointer">{menu}</span>
                     <hr className={`w-2/3 h-[1.5px] border-none bg-gray-700 hidden`} />
                 </NavLink>

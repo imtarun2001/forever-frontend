@@ -17,22 +17,21 @@ import { useEffect, useState } from "react"
 
 const App = () => {
 
-    const location = useLocation();
+  const location = useLocation();
   const [introVideo, setIntroVideo] = useState(false);
 
   useEffect(() => {
-    // Show intro only when app first loads and route is "/"
     if (location.pathname === "/") {
       setIntroVideo(true);
     }
-  }, []); // Runs only on first render
+  }, []);
 
   useEffect(() => {
     let timer;
     if (introVideo) {
       timer = setTimeout(() => {
         setIntroVideo(false);
-      }, 5000); // hide after 5s
+      }, 5000);
     }
     return () => clearTimeout(timer);
   }, [introVideo]);
