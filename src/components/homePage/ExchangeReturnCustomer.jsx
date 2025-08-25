@@ -25,7 +25,7 @@ const ExchangeReturnCustomer = () => {
       {
         arr.map((ele, index) => (
           <div key={index} className="flex flex-col justify-center items-center gap-1">
-            <img src={ele.icon} alt="" className="w-12.5 mb-2.5"/>
+            <img src={ele.icon} alt="" className="w-12.5 mb-2.5" />
             <p className="font-bold">{ele.title}</p>
             <p className="font-light text-gray-400 text-center">{ele.desc}</p>
           </div>

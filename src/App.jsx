@@ -9,11 +9,11 @@ import PlaceOrder from "./pages/PlaceOrder"
 import Orders from "./pages/Orders"
 import Navbar from "./components/common/Navbar"
 import Contact from "./pages/Contact"
-import AdminPanel from "./pages/AdminPanel"
 import Footer from "./components/common/Footer"
 import Searchbar from "./components/common/Searchbar"
 import IntroVideo from "./components/common/IntroVideo"
 import { useEffect, useState } from "react"
+import Otp from "./pages/Otp"
 
 const App = () => {
 
@@ -31,7 +31,7 @@ const App = () => {
     if (introVideo) {
       timer = setTimeout(() => {
         setIntroVideo(false);
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(timer);
   }, [introVideo]);
@@ -45,30 +45,29 @@ const App = () => {
     <div className="px-2 sm:px-4 md:px-6 lg:px-8 bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center text-nowrap">
 
       {/* navbar */}
-      <Navbar/>
+      <Navbar />
 
       {/* searchbar */}
-      <Searchbar/>
+      <Searchbar />
 
       {/* Routes */}
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/collection" element={<Collection/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/contact" element={<Contact/>}/>
-        <Route path="/product/:productId" element={<Product/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/place-order" element={<PlaceOrder/>}/>
-        <Route path="/orders" element={<Orders/>}/>
-        <Route path="/adminpanel" element={<AdminPanel/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/collection" element={<Collection />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/product/:productId" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/generate-otp" element={<Otp />} />
       </Routes>
 
 
       {/* footer */}
-      <Footer/>
-      
+      <Footer />
+
     </div>
   )
 }

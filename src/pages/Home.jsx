@@ -7,11 +7,11 @@ import SubscribeNow from "../components/homePage/SubscribeNow"
 const Home = () => {
   return (
     <div className="flex flex-col justify-center items-center">
-      <Hero/>
-      <LatestCollection/>
-      <BestSeller/>
-      <ExchangeReturnCustomer/>
-      <SubscribeNow/>
+      <Hero />
+      <LatestCollection />
+      <BestSeller />
+      <ExchangeReturnCustomer />
+      <SubscribeNow />
     </div>
   )
 }

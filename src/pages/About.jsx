@@ -21,11 +21,11 @@ const About = () => {
 
   return (
     <div className="w-10/12 flex flex-col justify-start items-center gap-10 sm:gap-20 pt-10">
-      <Title text1={'about'} text2={'us'}/>
+      <Title text1={'about'} text2={'us'} />
 
       {/* our mission */}
       <div className="w-full flex flex-col sm:flex-row justify-center items-start gap-5">
-        <img src={assets.about_img} alt="" className="w-full sm:w-1/2"/>
+        <img src={assets.about_img} alt="" className="w-full sm:w-1/2" />
 
         <div className="flex flex-col justify-center items-start gap-10 text-wrap">
           <p>Forever was born out of a passion for innovation and a desire to revolutionize the way people shop online. Our journey began with a simple idea: to provide a platform where customers can easily discover, explore, and purchase a wide range of products from the comfort of their homes</p>
@@ -35,12 +35,12 @@ const About = () => {
         </div>
       </div>
 
-      <Title text1={'why'} text2={'choose us'}/>
+      <Title text1={'why'} text2={'choose us'} />
 
       {/* why choose us */}
       <div className="flex flex-col sm:flex-row justify-center items-center text-wrap">
         {
-          whyChooseUs.map((reason,index) => (
+          whyChooseUs.map((reason, index) => (
             <div key={index} className="flex flex-col justify-center items-start gap-10 p-10 border border-gray-200">
               <p className="font-bold text-lg">{reason.title}</p>
               <p className="text-sm">{reason.desc}</p>
@@ -50,7 +50,7 @@ const About = () => {
       </div>
 
       {/* subscribe */}
-      <SubscribeNow/>
+      <SubscribeNow />
     </div>
   )
 }

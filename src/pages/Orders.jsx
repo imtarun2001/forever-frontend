@@ -4,22 +4,23 @@ import { useShopContext } from "../contexts/ShopContext"
 
 const Orders = () => {
 
-  const {products,currency} = useShopContext();
+  const { products, currency, screenWidth } = useShopContext();
+
 
   return (
     <div className="w-full flex flex-col justify-center items-start gap-10 pt-10 sm:pt-15 sm:pb-10 border-t">
-      <Title text1={'my'} text2={'orders'}/>
+      <Title text1={'my'} text2={'orders'} />
 
       {/* orders */}
       <div className="w-full flex flex-col justify-center items-center gap-10 text-xs md:text-base">
         {
-          products.slice(0,10).map((product,index) => (
+          products.slice(0, 10).map((product, index) => (
 
             // single order
-            
-            <div key={index} className="w-full flex justify-start items-start gap-4 md:gap-10 border-b pb-2">
+
+            <div key={index} className="w-full min-w-[200px] flex justify-start items-start gap-4 md:gap-10 border-b pb-2">
               {/* image */}
-              <img src={product.image[0]} alt="" className="w-1/6 sm:w-1/8 lg:w-1/12"/>
+              <img src={product.images[0]} alt="" className="w-1/6 sm:w-1/8 lg:w-1/12" />
 
 
 
@@ -36,12 +37,12 @@ const Orders = () => {
                 </div>
 
                 {/* ready to ship and track order */}
-                <div className="w-full sm:w-2/3 flex justify-between items-center">
+                <div className={`w-full sm:w-2/3 flex ${screenWidth < 350 ? `flex-col justify-center items-start gap-5` : `flex-row justify-between items-center`}`}>
                   <div className="flex justify-center items-center gap-1 sm:gap-2">
                     <p className={`min-w-3.5 h-3.5 rounded-full bg-green-500`}></p>
                     <p>Ready to ship</p>
                   </div>
-                  <Button navigateTo={null} text={'track order'} noBackground={true}/>
+                  <Button navigateTo={null} text={'track order'} noBackground={true} center={screenWidth < 350 ? true : false} />
                 </div>
               </div>
 
