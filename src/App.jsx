@@ -12,13 +12,14 @@ import Contact from "./pages/Contact"
 import Footer from "./components/common/Footer"
 import Searchbar from "./components/common/Searchbar"
 import IntroVideo from "./components/common/IntroVideo"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Otp from "./pages/Otp"
+import { useShopContext } from "./contexts/ShopContext"
 
 const App = () => {
 
   const location = useLocation();
-  const [introVideo, setIntroVideo] = useState(false);
+  const {introVideo,setIntroVideo} = useShopContext();
 
   useEffect(() => {
     if (location.pathname === "/") {

@@ -87,11 +87,9 @@ export const UserContextProvider = ({ children }) => {
                     cartData: {}
                 });
                 return toast.success(response.data.message);
-            } else {
-                return toast.error(response.data.message);
             }
         } catch (error) {
-            console.log(`Error in signupUser in UserContext`);
+            toast.error(error.message);
         }
     }
 
@@ -103,11 +101,12 @@ export const UserContextProvider = ({ children }) => {
                 localStorage.removeItem("accountType");
                 setLoggedIn(null);
                 setLogoutModalOpen(false);
-                setCartProducts({});
                 navigate('/');
+                setCartProducts({});
+                return toast.success(response.data.message);
             }
         } catch (error) {
-            console.log(`Error in logoutUser in UserContext`);
+            toast.error(error.message);
         }
     }
 

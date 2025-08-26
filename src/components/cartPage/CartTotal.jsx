@@ -5,12 +5,10 @@ import Title from "../common/Title";
 const CartTotal = ({ button, width }) => {
 
     const { delivery_fee, currency, loading, subTotal } = useShopContext();
-    console.log(subTotal);
-    console.log(loading)
 
 
     return (
-        <div className={`p-5 w-full sm:w-1/2 ${width && `md:w-1/3`} rounded-xl bg-pink-100 sm:drop-shadow-sm sm:drop-shadow-black flex flex-col justify-center items-start gap-5`}>
+        subTotal ? <div className={`p-5 w-full sm:w-1/2 ${width && `md:w-1/3`} rounded-xl bg-pink-100 sm:drop-shadow-sm sm:drop-shadow-black flex flex-col justify-center items-start gap-5`}>
             <Title text1={'CART'} text2={'TOTALS'} />
             <div className="w-full flex flex-col">
                 <div className="w-full flex justify-between items-center py-1.5">
@@ -30,6 +28,8 @@ const CartTotal = ({ button, width }) => {
                 button && <Button navigateTo={'/place-order'} text={'checkout'} />
             }
         </div>
+        :
+        null
     )
 }
 

@@ -7,7 +7,7 @@ import Spinner from "../components/common/Spinner";
 
 const Cart = () => {
 
-  const { products, currency, cartProducts, loading, updateCart, screenWidth } = useShopContext();
+  const { products, currency, cartProducts, totalCartItems, loading, updateCart, screenWidth } = useShopContext();
 
 
 
@@ -23,15 +23,10 @@ const Cart = () => {
         <Title text1={'MY'} text2={'CART'} />
 
         {
-          cartProducts.flatMap((item) => {
+          totalCartItems ?
+          Array.isArray(cartProducts) && cartProducts.flatMap((item) => {
             const product = products.find((product) => product._id === item[0]);
-            if (!product) {
-              return (
-                <div key={item[0]} className="h-[50vh] flex justify-center items-center animate-pulse">
-                  <Title text1={'Your cart🛒'} text2={'is empty'} />
-                </div>
-              )
-            }
+            if(!product) return null;
             return Object.keys(item[1]).map((size,index) => (
               <div key={index} className="w-full flex p-2.5 border-b border-gray-500">
                 {/* image of product */}
@@ -52,6 +47,10 @@ const Cart = () => {
             )
             )
           })
+          :
+          <div className="h-[50vh] w-full flex justify-center items-center animate-pulse">
+            <Title text1={'Your cart🛒'} center={true} desc={true} text2={'is empty'} />
+          </div>
         }
 
 

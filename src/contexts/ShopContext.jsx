@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { getProductsHandler } from "../services/ProductApis";
+import { getProductHandler, getProductsHandler } from "../services/ProductApis";
 import { addToCartHandler, getCartDataOfAnUserHandler, updateCartHandler } from "../services/CartApis";
 
 const ShopContext = createContext();
@@ -12,14 +12,16 @@ export const ShopContextProvider = ({ children }) => {
     const navigate = useNavigate();
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [introVideo, setIntroVideo] = useState(false);
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem("accountType") ? localStorage.getItem("accountType") : null);
-    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [showSearchbar, setShowSearchbar] = useState(false);
     const [cartProducts, setCartProducts] = useState([]);
-    const [totalCartItems,setTotalCartItems] = useState(0);
     const [subTotal,setSubTotal] = useState(0);
+    const [totalCartItems,setTotalCartItems] = useState(0);
 
     // fetch all products from server
     const fetchAllProducts = async () => {
@@ -28,30 +30,42 @@ export const ShopContextProvider = ({ children }) => {
             const response = await getProductsHandler();
             setProducts(response.data.data);
         } catch (error) {
-            console.log(`Error in fetchAllProducts`);
-            console.log(error.message);
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }
     }
+
+
+    // fetch single product from server
+    const fetchProduct = async (productId) => {
+        setLoading(true);
+        try {
+            const response = await getProductHandler(productId);
+            setProduct(response.data.data);
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     
     
-    
+    // add product to the cart
     const addToCart = async (itemId, size) => {
-        if (loggedIn === null) {
-            return toast.error(`Login to avail this feature`);
-        }
-        if (!size) {
-            return toast.error('Please Select Size');
-        }
-        
-        const response = await addToCartHandler({itemId,size});
-        if(response.data.success) {
-            toast.success('Product Added to Cart');
+        try {
+            if (!size) {
+                return toast.error('Please Select Size');
+            }
+            if (loggedIn === null) {
+                return toast.error(`Login to avail this feature`);
+            }
+
+            const response = await addToCartHandler({itemId,size});
             setCartProducts(response.data.data);
-            console.log(response.data.data);
-        } else {
-            toast.error(response.data.message);
+            toast.success(response.data.message);
+        } catch (error) {
+            toast.error(response.message);
         }
     };
 
@@ -59,9 +73,8 @@ export const ShopContextProvider = ({ children }) => {
         setLoading(true);
         try {
             const response = await getCartDataOfAnUserHandler();
-            if(response.data.success) {
-                setCartProducts(Object.entries(response.data.data));
-            }
+            setCartProducts(Object.entries(response.data.data));
+            toast.success(response.data.message);
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -77,26 +90,35 @@ export const ShopContextProvider = ({ children }) => {
                 await getCartDataOfAnUser();
             }
         } catch (error) {
-            console.log(error.message);
+            toast.error(error.message);
         }
     }
-    
+
     const subTotalHandler = async () => {
         setLoading(true);
         try {
-            const cartTotal = cartProducts.reduce((acc,curr) => {
+            // total price of all items in cart
+            const totalCartPrice = cartProducts.reduce((acc,curr) => {
                 const product = products.find(product => product._id === curr[0]);
                 if(!product) return acc;
-                return acc + product.price * Object.values(curr[1])[0];
+                const totalQty = Object.values(curr[1]).reduce((sum,qty) => sum + qty,0);
+                return acc + product.price * totalQty;
             },0);
-            setSubTotal(cartTotal);
+            setSubTotal(totalCartPrice);
+
+            // total number of products in cart
+            const totalItemsInCart = cartProducts.reduce((acc,curr) => {
+                const product = products.find(product => product._id === curr[0]);
+                if(!product) return acc;
+                return acc + Object.values(curr[1]).reduce((acc,size) => acc + size,0);
+            },0);
+            setTotalCartItems(totalItemsInCart);
         } catch (error) {
-            console.log(`Error in subTotalHandler`);
+            console.log(`Error in subTotalHandler`,error.message);
         } finally {
             setLoading(false);
         }
     }
-    console.log(`loading in ShopContext`,loading);
     
 
 
@@ -111,7 +133,6 @@ export const ShopContextProvider = ({ children }) => {
 
     useEffect(() => {
         fetchAllProducts();
-        getCartDataOfAnUser();
         setLoggedIn(localStorage.getItem("accountType"));
     }, []);
     useEffect(() => {
@@ -133,13 +154,18 @@ export const ShopContextProvider = ({ children }) => {
         delivery_fee,
         navigate,
         screenWidth,setScreenWidth,
+        introVideo,setIntroVideo,
         loggedIn, setLoggedIn,
-        products, setProducts,
         loading, setLoading,
+        products, setProducts,
+        product,setProduct,
         searchText, setSearchText,
         showSearchbar, setShowSearchbar,
         cartProducts, setCartProducts,
         subTotal,setSubTotal,
+        totalCartItems,setTotalCartItems,
+        fetchAllProducts,
+        fetchProduct,
         addToCart,
         getCartDataOfAnUser,
         updateCart

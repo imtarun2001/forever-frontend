@@ -7,22 +7,18 @@ const logoutUser = () => axiosInstance.post(`/user/logoutUser`);
 export const registerUserHandler = async (userData) => {
     try {
         const response = await registerUser(userData);
-        if (response.data.success) {
-            return response;
-        }
+        return response;
     } catch (error) {
-        console.log(`Error in registerUserHandler`, error.message);
+        throw new Error(error.response?.data?.message || error.message);
     }
 }
 
 export const loginUserHandler = async (userData) => {
     try {
         const response = await loginUser(userData);
-        if (response.data.success) {
-            return response;
-        }
+        return response;
     } catch (error) {
-        console.log(`Error in loginUserHandler`, error.message);
+        throw new Error(error.response?.data?.message || error.message);
     }
 }
 
@@ -30,10 +26,8 @@ export const loginUserHandler = async (userData) => {
 export const logoutUserHandler = async () => {
     try {
         const response = await logoutUser();
-        if (response.data.success) {
-            return response;
-        }
+        return response;
     } catch (error) {
-        console.log(`Error in loginUserHandler`, error.message);
+        throw new Error(error.response?.data?.message || error.message);
     }
 }

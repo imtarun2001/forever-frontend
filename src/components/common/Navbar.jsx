@@ -75,10 +75,10 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <Link className='relative' to='/cart' onClick={getCartDataOfAnUser}>
+                <Link className='relative' to={loggedIn && '/cart'} onClick={getCartDataOfAnUser}>
                     <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />
                     {
-                        <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalCartItems}</p>
+                        totalCartItems ? <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalCartItems}</p> : null
                     }
                 </Link>
                 <img src={assets.menu_icon} onClick={() => setMenuActive(true)} className='w-5 cursor-pointer sm:hidden' alt="" />

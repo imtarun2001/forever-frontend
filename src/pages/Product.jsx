@@ -1,40 +1,24 @@
-import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom"
+import { useShopContext } from "../contexts/ShopContext";
 import Title from "../components/common/Title";
 import Spinner from "../components/common/Spinner";
 import ProductImages from "../components/productPage/ProductImages";
 import ProductDetails from "../components/productPage/ProductDetails";
 import RelatedProducts from "../components/productPage/RelatedProducts";
 import DescriptionAndReviews from "../components/productPage/DescriptionAndReviews";
-import { getProductHandler } from "../services/ProductApis";
 
 const Product = () => {
 
   const { productId } = useParams();
-
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const fetchProduct = async () => {
-    setLoading(true);
-    try {
-      const response = await getProductHandler(productId);
-      setProduct(response.data.data);
-      toast.success(response.data.message);
-    } catch (error) {
-      console.log(error.message);
-      toast.error('error while fetching product');
-    }
-    setLoading(false);
-  };
+  const { fetchProduct, loading, product } = useShopContext();
 
   useEffect(() => {
-    fetchProduct();
+    fetchProduct(productId);
   }, [productId]);
 
 
-  return loading || !product ?
+  return loading ?
     <Spinner />
     :
     (
