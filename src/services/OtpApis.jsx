@@ -1,6 +1,6 @@
 import { axiosInstance } from "./AxiosInstance";
 
-const generateOtp = (email) => axiosInstance.post(`/generateOtp`, email);
+const generateOtp = (email) => axiosInstance.post(`/otp/generateOtp`, email);
 
 export const generateOtpHandler = async (email) => {
     try {

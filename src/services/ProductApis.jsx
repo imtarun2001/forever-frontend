@@ -1,7 +1,7 @@
 import { axiosInstance } from "./AxiosInstance";
 
-const getProducts = () => axiosInstance.get(`/getProducts`);
-const getProduct = (productId) => axiosInstance.get(`/getProduct/${productId}`);
+const getProducts = () => axiosInstance.get(`/product/getProducts`);
+const getProduct = (productId) => axiosInstance.get(`/product/getProduct/${productId}`);
 
 export const getProductsHandler = async () => {
     try {

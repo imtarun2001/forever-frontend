@@ -4,12 +4,17 @@ import { Link } from "react-router-dom";
 import { assets } from "../assets/frontend_assets/assets";
 import CartTotal from "../components/cartPage/CartTotal";
 import Spinner from "../components/common/Spinner";
+import { useEffect } from "react";
 
 const Cart = () => {
 
-  const { products, currency, cartProducts, totalCartItems, loading, updateCart, screenWidth } = useShopContext();
+  const { products, currency, cartProducts, getCartDataOfAnUser, totalCartItems, loading, setLoading, updateCart, screenWidth } = useShopContext();
 
-
+  useEffect(() => {
+    setLoading(true);
+    getCartDataOfAnUser();
+    setLoading(false);
+  },[]);
 
 
 
@@ -27,8 +32,8 @@ const Cart = () => {
           Array.isArray(cartProducts) && cartProducts.flatMap((item) => {
             const product = products.find((product) => product._id === item[0]);
             if(!product) return null;
-            return Object.keys(item[1]).map((size,index) => (
-              <div key={index} className="w-full flex p-2.5 border-b border-gray-500">
+            return Object.keys(item[1]).map((size) => (
+              <div key={`${product._id}-${size}`} className="w-full flex p-2.5 border-b border-gray-500">
                 {/* image of product */}
                 <Link to={`/product/${product._id}`} className="w-1/3 sm:w-1/9 flex items-center justify-center"><img src={product.images[0]} alt="" className="w-full" /></Link>
 

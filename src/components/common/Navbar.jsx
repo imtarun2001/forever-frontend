@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { assets } from '../../assets/frontend_assets/assets'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, matchPath, NavLink } from 'react-router-dom';
 import { useShopContext } from '../../contexts/ShopContext';
 import { useUserContext } from '../../contexts/UserContext';
 
 const Navbar = () => {
 
-    const { setShowSearchbar, totalCartItems, loggedIn, screenWidth,getCartDataOfAnUser } = useShopContext();
+    const { setShowSearchbar, totalCartItems, loggedIn, screenWidth, getCartDataOfAnUser, location } = useShopContext();
     const { logoutUser, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
 
     const logoutModalOpenRef = useRef(null);
-    
+
     const [menuActive, setMenuActive] = useState(false);
     const menus = [`HOME`, `COLLECTION`, `ABOUT`, `CONTACT`];
 
     const dropDownHandler = (ele) => {
-        if(ele === 'Logout') setLogoutModalOpen(true);
-        if(ele === 'Orders') navigate('/orders');
+        if (ele === 'Logout') setLogoutModalOpen(true);
+        if (ele === 'Orders') navigate('/orders');
     }
 
     useEffect(() => {
@@ -27,22 +27,21 @@ const Navbar = () => {
         return () => window.removeEventListener("mousedown", clickAnyWhereToCloseLogoutModalHandler);
     }, [logoutModalOpen]);
 
-
     return (
-        <div className={`w-full flex items-center py-5 font-medium ${screenWidth < 310 ? `flex-col justify-center gap-5` : `flex-row justify-between`}`}>
+        <div className={`w-full flex items-center py-5 font-medium ${screenWidth < 350 ? `flex-col justify-center gap-5` : `flex-row justify-between`} ${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `hidden` : ``}`}>
 
-            <div className={`fixed left-0 top-0 w-screen h-screen z-100 bg-black opacity-80 ${logoutModalOpen ? `flex justify-center items-center` : `hidden`}`}>
-                <div className='w-full sm:w-1/3 flex flex-col justify-center items-center gap-5 px-1 sm:px-5 md:px-10 py-1 sm:py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>
-                    <p className='w-full text-start'>Do you really want to Logout ?</p>
+            <div className={`fixed left-0 top-0 w-full h-screen z-200 bg-black opacity-80 ${logoutModalOpen ? `flex justify-center items-center` : `hidden`}`}>
+                <div className='w-1/3 flex flex-col justify-center items-center gap-5 px-5 md:px-10 py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>
+                    <p className='w-full text-start text-wrap'>Do you really want to Logout ?</p>
                     <div className='w-full flex justify-center sm:justify-end items-center gap-10'>
-                        <button className='px-2.5 sm:px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={logoutUser}>Yes</button>
-                        <button className='px-2.5 sm:px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={() => setLogoutModalOpen(false)}>No</button>
+                        <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={logoutUser}>Yes</button>
+                        <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={() => setLogoutModalOpen(false)}>No</button>
                     </div>
                 </div>
             </div>
 
             {/* ----------------------------------logo--------------------------------- */}
-            <div className={`${screenWidth < 310 && `w-full flex justify-center items-center`}`}>
+            <div className={`${screenWidth < 350 && `w-full flex justify-center items-center`}`}>
                 <Link to='/'><img src={assets.logo} alt="" className="w-36" /></Link>
             </div>
 
@@ -57,15 +56,15 @@ const Navbar = () => {
                     )}
             </div>
 
-            {/* ------------------------------search profile and cart icon------------------------------------ */}
-            <div className={`flex justify-between items-center gap-5 sm:gap-10 ${screenWidth < 310 ? `w-full` : `w-auto`}`}>
+            {/* ------------------------------search, profile and cart icon------------------------------------ */}
+            <div className={`flex justify-between items-center gap-5 sm:gap-10 ${screenWidth < 350 ? `w-full bg-pink-300 rounded py-2 px-4` : `w-auto`}`}>
                 <img src={assets.search_icon} alt="" className='w-5 cursor-pointer' onClick={() => setShowSearchbar(prev => !prev)} />
                 <div className='group relative'>
                     <Link to={loggedIn === null ? `/login` : null}><img src={assets.profile_icon} alt="" className='w-5 min-w-5 cursor-pointer' /></Link>
                     <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
                         {
                             loggedIn !== null &&
-                            <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
+                            <div className='hidden sm:flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                                 {
                                     ['My Profile', 'Orders', 'Logout'].map((ele) => (
                                         <p key={ele} className='cursor-pointer hover:text-black' onClick={() => dropDownHandler(ele)}>{ele}</p>
@@ -98,6 +97,27 @@ const Navbar = () => {
                                     {menu}
                                 </div>
                             </NavLink>
+                        ))
+                    }
+                    {
+                        loggedIn !== null &&
+                        [
+                            {
+                                title: 'My Profile',
+                                path: '/my-profile'
+                            },
+                            {
+                                title: 'Orders',
+                                path: '/orders'
+                            },
+                            {
+                                title: 'Logout',
+                                path: null
+                            }
+                        ].map((obj) => (
+                            <div key={obj.title} className='w-full border-b py-5 pl-2 uppercase border-gray-400' onClick={() => obj.path === null ? setLogoutModalOpen(true) : navigate(obj.path)}>
+                                {obj.title}
+                            </div>
                         ))
                     }
                 </div>

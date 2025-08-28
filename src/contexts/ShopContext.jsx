@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getProductHandler, getProductsHandler } from "../services/ProductApis";
 import { addToCartHandler, getCartDataOfAnUserHandler, updateCartHandler } from "../services/CartApis";
 
@@ -10,6 +10,7 @@ export const ShopContextProvider = ({ children }) => {
     const currency = '💲';
     const delivery_fee = 10;
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [introVideo, setIntroVideo] = useState(false);
@@ -65,7 +66,7 @@ export const ShopContextProvider = ({ children }) => {
             setCartProducts(response.data.data);
             toast.success(response.data.message);
         } catch (error) {
-            toast.error(response.message);
+            toast.error(error.message);
         }
     };
 
@@ -74,7 +75,6 @@ export const ShopContextProvider = ({ children }) => {
         try {
             const response = await getCartDataOfAnUserHandler();
             setCartProducts(Object.entries(response.data.data));
-            toast.success(response.data.message);
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -134,7 +134,11 @@ export const ShopContextProvider = ({ children }) => {
     useEffect(() => {
         fetchAllProducts();
         setLoggedIn(localStorage.getItem("accountType"));
+        if(localStorage.getItem("accountType")) {
+            getCartDataOfAnUser();
+        }
     }, []);
+
     useEffect(() => {
         const resizeHandler = () => setScreenWidth(window.innerWidth);
         window.addEventListener("resize", resizeHandler);
@@ -153,6 +157,7 @@ export const ShopContextProvider = ({ children }) => {
         currency,
         delivery_fee,
         navigate,
+        location,
         screenWidth,setScreenWidth,
         introVideo,setIntroVideo,
         loggedIn, setLoggedIn,

@@ -6,7 +6,7 @@ import SubscribeNow from "../components/homePage/SubscribeNow"
 
 const Home = () => {
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center w-full">
       <Hero />
       <LatestCollection />
       <BestSeller />

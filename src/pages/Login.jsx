@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Title from "../components/common/Title"
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useUserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 
@@ -37,7 +38,7 @@ const Login = () => {
         }
 
         <p className="w-full sm:w-2/3 flex justify-between items-center text-sm">
-          <u className="cursor-pointer text-red-300 hover:text-red-400">Forgot Password?</u>
+          <Link to="/forgot-password" className="cursor-pointer text-red-300 hover:text-red-400">Forgot Password?</Link>
           {
             current === 'Log in' ?
               <span>New User? <u className="hover:text-sky-600 cursor-pointer" onClick={() => setCurrent('Sign up')}>Sign up</u></span>

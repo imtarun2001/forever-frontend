@@ -8,7 +8,7 @@ const Contact = () => {
       <Title text1={'contact'} text2={'us'} />
 
       {/* our store */}
-      <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 sm:gap-10">
+      <div className="w-full flex flex-col sm:flex-row justify-center items-start sm:items-center gap-5 sm:gap-10">
         <img src={assets.contact_img} alt="" className="w-full sm:w-1/2" />
 
         <div className="flex flex-col justify-center items-start gap-5">

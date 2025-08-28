@@ -13,9 +13,9 @@ const Hero = () => {
     }, []);
 
     return (
-        <div className="flex relative my-10">
-            <div className={`w-0 h-0 absolute sm:h-full sm:w-full ${whiteBackground ? 'bg-black' : 'bg-[#FFD6D6]'} bottom-5 right-5 transition-all duration-1000`}></div>
-            <div className={`w-0 h-0 absolute sm:h-full sm:w-full ${whiteBackground ? 'bg-[#FFD6D6]' : 'bg-black'} top-5 left-5 transition-all duration-1000`}></div>
+        <div className="flex flex-col relative my-10 justify-center items-center">
+            <div className={`w-0 h-0 absolute lg:h-full lg:w-full ${whiteBackground ? 'bg-black' : 'bg-[#FFD6D6]'} bottom-2 right-2 transition-all duration-1000`}></div>
+            <div className={`w-0 h-0 absolute lg:h-full lg:w-full ${whiteBackground ? 'bg-[#FFD6D6]' : 'bg-black'} top-2 left-2 transition-all duration-1000`}></div>
             <div className="flex flex-col sm:flex-row relative">
 
                 {/* hero left */}

@@ -1,15 +1,14 @@
-import { useLocation } from "react-router-dom";
 import { assets } from "../../assets/frontend_assets/assets";
 import { useShopContext } from "../../contexts/ShopContext"
 import { useEffect, useState } from "react";
 
 const Searchbar = () => {
 
-    const { searchText, setSearchText, showSearchbar, setShowSearchbar } = useShopContext();
+    const { searchText, setSearchText, showSearchbar, setShowSearchbar, location } = useShopContext();
 
     const [onlyShowSearchbarInCollection, setOnlyShowSearchbarInCollection] = useState(false);
 
-    const location = useLocation();
+    
 
     useEffect(() => {
         location.pathname === '/collection' && showSearchbar ? setOnlyShowSearchbarInCollection(true) : setOnlyShowSearchbarInCollection(false);

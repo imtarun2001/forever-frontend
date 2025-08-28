@@ -14,7 +14,7 @@ const About = () => {
       desc: 'With our user-friendly interface and hassle-free ordering process, shopping has never been easier.'
     },
     {
-      title: 'Exceptional Customer Service:',
+      title: 'Customer Service:',
       desc: 'Our team of dedicated professionals is here to assist you the way, ensuring your satisfaction is our top priority.'
     },
   ];
@@ -41,8 +41,8 @@ const About = () => {
       <div className="flex flex-col sm:flex-row justify-center items-center text-wrap">
         {
           whyChooseUs.map((reason, index) => (
-            <div key={index} className="flex flex-col justify-center items-start gap-10 p-10 border border-gray-200">
-              <p className="font-bold text-lg">{reason.title}</p>
+            <div key={index} className="flex flex-col justify-center items-start gap-5 p-10 border border-gray-200">
+              <p className="font-bold lg:text-lg">{reason.title}</p>
               <p className="text-sm">{reason.desc}</p>
             </div>
           ))
