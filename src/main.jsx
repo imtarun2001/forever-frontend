@@ -4,7 +4,6 @@ import './index.css'
 import App from './App.jsx'
 import { ShopContextProvider } from './contexts/ShopContext.jsx'
 import { Toaster } from 'react-hot-toast'
-import 'react-toastify/dist/ReactToastify.css'
 import { UserContextProvider } from './contexts/UserContext.jsx'
 
 createRoot(document.getElementById('root')).render(

@@ -6,9 +6,8 @@ import Spinner from "../common/Spinner";
 
 const RelatedProducts = ({ category, subCategory }) => {
 
-    const { currency, products } = useShopContext();
+    const { currency, products, loading, setLoading } = useShopContext();
     const [relatedProducts, setRelatedProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     const fetchRelatedProducts = async () => {
         setLoading(true);

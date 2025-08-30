@@ -11,10 +11,10 @@ import DescriptionAndReviews from "../components/productPage/DescriptionAndRevie
 const Product = () => {
 
   const { productId } = useParams();
-  const { fetchProduct, loading, product } = useShopContext();
+  const { getProduct, loading, product } = useShopContext();
 
   useEffect(() => {
-    fetchProduct(productId);
+    getProduct(productId);
   }, [productId]);
 
 

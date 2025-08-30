@@ -9,7 +9,9 @@ import toast from "react-hot-toast";
 
 const PlaceOrder = () => {
 
-  const {subTotal, delivery_fee} = useShopContext();
+  const {cartTotal, delivery_fee, navigate} = useShopContext();
+
+  const {totalAmount} = cartTotal();
 
   const [orderdata,setOrderData] = useState(
     {
@@ -23,7 +25,7 @@ const PlaceOrder = () => {
       country: '',
       phone: '',
       paymentMethod: '',
-      amount: subTotal + delivery_fee
+      amount: totalAmount + delivery_fee
     }
   )
   const paymentModes = [
@@ -95,10 +97,11 @@ const PlaceOrder = () => {
       event.preventDefault();
       const response = await orderByCodHandler(orderdata);
       toast.success(response.data.message);
+      navigate('/');
       setOrderData(prev => (
         {
           ...prev,
-          amount: subTotal + delivery_fee,
+          amount: totalAmount + delivery_fee,
           city: '',
           country: '',
           email: '',

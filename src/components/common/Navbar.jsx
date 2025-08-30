@@ -6,8 +6,10 @@ import { useUserContext } from '../../contexts/UserContext';
 
 const Navbar = () => {
 
-    const { setShowSearchbar, totalCartItems, loggedIn, screenWidth, getCartDataOfAnUser, location } = useShopContext();
+    const { setShowSearchbar, getCartDataOfAnUser, screenWidth, location, cartTotal } = useShopContext();
     const { logoutUser, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
+
+    const {totalItems} = cartTotal();
 
     const logoutModalOpenRef = useRef(null);
 
@@ -60,10 +62,9 @@ const Navbar = () => {
             <div className={`flex justify-between items-center gap-5 sm:gap-10 ${screenWidth < 350 ? `w-full bg-pink-300 rounded py-2 px-4` : `w-auto`}`}>
                 <img src={assets.search_icon} alt="" className='w-5 cursor-pointer' onClick={() => setShowSearchbar(prev => !prev)} />
                 <div className='group relative'>
-                    <Link to={loggedIn === null ? `/login` : null}><img src={assets.profile_icon} alt="" className='w-5 min-w-5 cursor-pointer' /></Link>
+                    <Link to={`/login`}><img src={assets.profile_icon} alt="" className='w-5 min-w-5 cursor-pointer' /></Link>
                     <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
                         {
-                            loggedIn !== null &&
                             <div className='hidden sm:flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                                 {
                                     ['My Profile', 'Orders', 'Logout'].map((ele) => (
@@ -74,11 +75,9 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <Link className='relative' to={loggedIn && '/cart'} onClick={getCartDataOfAnUser}>
+                <Link className='relative' to={'/cart'} onClick={getCartDataOfAnUser}>
                     <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />
-                    {
-                        totalCartItems ? <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalCartItems}</p> : null
-                    }
+                    <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalItems}</p>
                 </Link>
                 <img src={assets.menu_icon} onClick={() => setMenuActive(true)} className='w-5 cursor-pointer sm:hidden' alt="" />
             </div>
@@ -100,7 +99,6 @@ const Navbar = () => {
                         ))
                     }
                     {
-                        loggedIn !== null &&
                         [
                             {
                                 title: 'My Profile',

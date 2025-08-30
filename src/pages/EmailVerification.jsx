@@ -6,7 +6,7 @@ import { useShopContext } from "../contexts/ShopContext";
 
 const EmailVerification = () => {
 
-    const {navigate} = useShopContext();
+    const {navigate, loading, setLoading} = useShopContext();
     const {forgotPasswordTokenFromFrontend} = useParams();
 
     const [userPasswords,setUserPasswords] = useState(
@@ -15,7 +15,7 @@ const EmailVerification = () => {
             confirmNewPassword: ''
         }
     );
-    const [loading,setLoading] = useState(false);
+
     const [openPasswordResetSuccessfulModal,setOpenPasswordResetSuccessfulModal] = useState(false);
     const openPasswordResetSuccessfulModalRef = useRef(null);
 
