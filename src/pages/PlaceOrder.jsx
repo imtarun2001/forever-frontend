@@ -4,16 +4,16 @@ import Title from "../components/common/Title"
 import { assets } from "../assets/frontend_assets/assets";
 import Button from "../components/common/Button";
 import { useShopContext } from "../contexts/ShopContext";
-import { orderByCodHandler } from "../services/OrderApis";
+import { orderByCodHandler, orderByStripeHandler } from "../services/OrderApis";
 import toast from "react-hot-toast";
 
 const PlaceOrder = () => {
 
-  const {cartTotal, delivery_fee, navigate} = useShopContext();
+  const { cartTotal, delivery_fee, navigate, products, cartProducts, setCartProducts, setLoading } = useShopContext();
 
-  const {totalAmount} = cartTotal();
+  const { totalAmount } = cartTotal();
 
-  const [orderdata,setOrderData] = useState(
+  const [orderingUserData, setOrderingUserData] = useState(
     {
       firstName: '',
       lastName: '',
@@ -27,10 +27,10 @@ const PlaceOrder = () => {
       paymentMethod: '',
       amount: totalAmount + delivery_fee
     }
-  )
+  );
+
   const paymentModes = [
     { value: 'stripe', image: assets.stripe_logo },
-    { value: 'razorpay', image: assets.razorpay_logo },
     { value: 'cod' }
   ];
 
@@ -83,8 +83,8 @@ const PlaceOrder = () => {
   ];
 
   const changeHandler = (event) => {
-    const {name,type,value,checked} = event.target;
-    setOrderData(prev => {
+    const { name, type, value, checked } = event.target;
+    setOrderingUserData(prev => {
       return {
         ...prev,
         [name]: type === 'checkbox' ? checked : value
@@ -93,12 +93,50 @@ const PlaceOrder = () => {
   }
 
   const orderByCod = async (event) => {
+    setLoading(true);
     try {
       event.preventDefault();
-      const response = await orderByCodHandler(orderdata);
-      toast.success(response.data.message);
-      navigate('/');
-      setOrderData(prev => (
+
+
+      if (orderingUserData.paymentMethod === '') {
+        return toast.error(`payment method required`);
+      }
+
+      let itemsOrdered = [];
+
+      Object.keys(cartProducts).forEach((itemId) => {
+        Object.keys(cartProducts[itemId]).forEach((size) => {
+          if (cartProducts[itemId][size] > 0) {
+            const product = structuredClone(products.find(product => product._id === itemId));
+            if (product) {
+              product.size = size;
+              product.quantity = cartProducts[itemId][size];
+              itemsOrdered.push(product);
+            }
+          }
+        });
+      });
+
+      const orderPayload = {
+        ...orderingUserData,
+        itemsOrdered
+      };
+
+      if (orderingUserData.paymentMethod === 'cod') {
+        const response = await orderByCodHandler(orderPayload);
+        const order = response.data.data;
+        setCartProducts([]);
+        navigate(`/orders/${String(order.user)}`);
+        toast.success(response.data.message);
+      }
+
+      if (orderingUserData.paymentMethod === 'stripe') {
+        const response = await orderByStripeHandler(orderPayload);
+        const sessionUrl = response.data.data;
+        window.location.replace(sessionUrl);
+      }
+
+      setOrderingUserData(prev => (
         {
           ...prev,
           amount: totalAmount + delivery_fee,
@@ -107,6 +145,7 @@ const PlaceOrder = () => {
           email: '',
           firstName: '',
           lastName: '',
+          paymentMethod: '',
           phone: '',
           state: '',
           street: '',
@@ -115,6 +154,8 @@ const PlaceOrder = () => {
       ));
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -129,11 +170,11 @@ const PlaceOrder = () => {
           inputFields.map((inputField, index) => (
             inputField.field1 && inputField.field2 ?
               <div key={index} className="flex gap-3 w-full">
-                <input name={inputField.value1} id={inputField.value1} onChange={changeHandler} value={orderdata[inputField.value1]} type={inputField.type1} placeholder={inputField.field1} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
-                <input name={inputField.value2} id={inputField.value2} onChange={changeHandler} value={orderdata[inputField.value2]} type={inputField.type2} placeholder={inputField.field2} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
+                <input name={inputField.value1} id={inputField.value1} onChange={changeHandler} value={orderingUserData[inputField.value1]} type={inputField.type1} placeholder={inputField.field1} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
+                <input name={inputField.value2} id={inputField.value2} onChange={changeHandler} value={orderingUserData[inputField.value2]} type={inputField.type2} placeholder={inputField.field2} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
               </div>
               :
-              <input key={index} name={inputField.value1} id={inputField.value1} onChange={changeHandler} value={orderdata[inputField.value1]} type={inputField.type1} placeholder={inputField.field1} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
+              <input key={index} name={inputField.value1} id={inputField.value1} onChange={changeHandler} value={orderingUserData[inputField.value1]} type={inputField.type1} placeholder={inputField.field1} required className="border border-gray-300 rounded py-1.5 px-3.5 w-full placeholder:text-gray-400" />
           ))
         }
       </div>
@@ -150,10 +191,10 @@ const PlaceOrder = () => {
             {
               paymentModes.map((paymentMode, index) => (
                 <div key={index} className='flex justify-center items-center gap-1 sm:gap-3.5 rounded border p-2 cursor-pointer hover:bg-gray-200'>
-                  <input type="radio" name="paymentMethod" id={paymentMode.value} onChange={changeHandler} value={paymentMode.value} checked={orderdata.paymentMethod === paymentMode.value}/>
+                  <input type="radio" name="paymentMethod" id={paymentMode.value} onChange={changeHandler} value={paymentMode.value} checked={orderingUserData.paymentMethod === paymentMode.value} />
                   <label htmlFor={paymentMode.value} className="flex justify-start items-center">
                     {
-                      paymentMode.value === 'cod' ? <p className=''>cod</p> : <img src={paymentMode.image} alt="" className='w-1/2 sm:w-1/3' />
+                      paymentMode.value === 'cod' ? <p className='text-gray-500'>Cash On Delivery</p> : <img src={paymentMode.image} alt="" className='w-1/2' />
                     }
                   </label>
                 </div>

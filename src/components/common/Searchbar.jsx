@@ -8,7 +8,7 @@ const Searchbar = () => {
 
     const [onlyShowSearchbarInCollection, setOnlyShowSearchbarInCollection] = useState(false);
 
-    
+
 
     useEffect(() => {
         location.pathname === '/collection' && showSearchbar ? setOnlyShowSearchbarInCollection(true) : setOnlyShowSearchbarInCollection(false);

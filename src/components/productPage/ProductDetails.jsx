@@ -7,7 +7,7 @@ import Spinner from "../common/Spinner";
 
 const ProductDetails = ({ product }) => {
 
-  const { currency, addToCart } = useShopContext();
+  const { currency, addToCart, loading } = useShopContext();
 
   const [selectSizeOfProduct, setSelectSizeOfProduct] = useState(null);
 
@@ -37,7 +37,7 @@ const ProductDetails = ({ product }) => {
             ))
           }
         </div>
-        <button className="text-lg font-semibold border border-black rounded cursor-pointer bg-red-300 text-black hover:text-white hover:bg-red-400 py-1.5 px-2.5 active:bg-gray-800" onClick={() => addToCart(product._id, selectSizeOfProduct)}>Add to Cart</button>
+        <button className="text-lg font-semibold border border-black rounded cursor-pointer bg-red-300 text-black hover:text-white hover:bg-red-400 py-1.5 px-2.5 active:bg-gray-800" disabled={loading ? true : false} onClick={() => addToCart(product._id, selectSizeOfProduct)}>{loading ? `Adding...` : `Add to Cart`}</button>
         <hr className="w-full" />
         <div className="w-full flex flex-col justify-center items-center lg:items-end gap-1.5 text-center lg:text-justify">
           {

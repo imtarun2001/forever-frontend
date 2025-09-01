@@ -3,8 +3,8 @@ import { axiosInstance } from "./AxiosInstance";
 const registerUser = (userData) => axiosInstance.post(`/user/registerUser`, userData);
 const loginUser = (userData) => axiosInstance.post(`/user/loginUser`, userData);
 const logoutUser = () => axiosInstance.post(`/user/logoutUser`);
-const forgotPasswordLinkToEmail = (userData) => axiosInstance.post(`/user/forgotPasswordLinkToEmail`,userData);
-const forgotPassword = (userData) => axiosInstance.post(`/user/forgotPassword`,userData);
+const forgotPasswordLinkToEmail = (userData) => axiosInstance.post(`/user/forgotPasswordLinkToEmail`, userData);
+const forgotPassword = (userData) => axiosInstance.post(`/user/forgotPassword`, userData);
 
 export const registerUserHandler = async (userData) => {
     try {

@@ -9,7 +9,7 @@ const Navbar = () => {
     const { setShowSearchbar, getCartDataOfAnUser, screenWidth, location, cartTotal } = useShopContext();
     const { logoutUser, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
 
-    const {totalItems} = cartTotal();
+    const { totalItems } = cartTotal();
 
     const logoutModalOpenRef = useRef(null);
 
@@ -35,7 +35,7 @@ const Navbar = () => {
             <div className={`fixed left-0 top-0 w-full h-screen z-200 bg-black opacity-80 ${logoutModalOpen ? `flex justify-center items-center` : `hidden`}`}>
                 <div className='w-1/3 flex flex-col justify-center items-center gap-5 px-5 md:px-10 py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>
                     <p className='w-full text-start text-wrap'>Do you really want to Logout ?</p>
-                    <div className='w-full flex justify-center sm:justify-end items-center gap-10'>
+                    <div className='w-full flex flex-col sm:flex-row justify-center sm:justify-end items-center gap-5 sm:gap-10'>
                         <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={logoutUser}>Yes</button>
                         <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={() => setLogoutModalOpen(false)}>No</button>
                     </div>

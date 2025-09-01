@@ -1,10 +1,36 @@
+import { useEffect, useState } from "react";
 import Button from "../components/common/Button";
 import Title from "../components/common/Title";
 import { useShopContext } from "../contexts/ShopContext"
+import { getOrdersOfAnUserHandler } from "../services/OrderApis";
 
 const Orders = () => {
 
-  const { products, currency, screenWidth } = useShopContext();
+  const { currency, screenWidth } = useShopContext();
+
+  const [orderData, setOrderData] = useState([]);
+
+  const getOrdersOfAnUser = async () => {
+    try {
+      const response = await getOrdersOfAnUserHandler();
+      let allOrderedItems = [];
+      response.data.data.map(order => (
+        order.itemsOrdered.map(product => {
+          product['orderStatus'] = order.orderStatus;
+          product['paymentMethod'] = order.paymentMethod;
+          product['date'] = order.createdAt;
+          allOrderedItems.push(product);
+        })
+      ));
+      setOrderData(allOrderedItems.reverse());
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  useEffect(() => {
+    getOrdersOfAnUser();
+  }, []);
 
 
   return (
@@ -14,7 +40,7 @@ const Orders = () => {
       {/* orders */}
       <div className="w-full flex flex-col justify-center items-center gap-10 text-xs md:text-base">
         {
-          products.slice(0, 10).map((product, index) => (
+          orderData.map((product, index) => (
 
             // single order
 
@@ -28,19 +54,20 @@ const Orders = () => {
                 {/* product details */}
                 <div className="w-full sm:w-1/2 flex flex-col justify-center items-start gap-2">
                   <p className="font-semibold">{product.name}</p>
-                  <div className="flex justify-center items-center gap-2">
-                    <p>{product.price + '.00' + '' + currency}</p>
-                    <p>Quantity : <b>1</b></p>
-                    <p>Size : <b>M</b></p>
+                  <div className="flex flex-col sm:flex-row justify-center items-start gap-2">
+                    <p className="font-bold">{product.price + '.00' + '' + currency}</p>
+                    <p className="text-start">Qty : <b>{product.quantity}</b></p>
+                    <p>Size :<b>{product.size}</b></p>
                   </div>
-                  <p><i>Date : 01 Aug 2025</i></p>
+                  <p className="text-gray-500">{new Date(product.date).toDateString()}</p>
+                  <p>Mode of payment : <b className="uppercase text-gray-600">{product.paymentMethod}</b></p>
                 </div>
 
                 {/* ready to ship and track order */}
                 <div className={`w-full sm:w-2/3 flex ${screenWidth < 350 ? `flex-col justify-center items-start gap-5` : `flex-row justify-between items-center`}`}>
                   <div className="flex justify-center items-center gap-1 sm:gap-2">
                     <p className={`min-w-3.5 h-3.5 rounded-full bg-green-500`}></p>
-                    <p>Ready to ship</p>
+                    <p className="text-nowrap">{product.orderStatus}</p>
                   </div>
                   <Button navigateTo={null} text={'track order'} noBackground={true} center={screenWidth < 350 ? true : false} />
                 </div>

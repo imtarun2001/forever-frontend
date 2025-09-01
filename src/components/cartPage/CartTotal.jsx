@@ -28,8 +28,8 @@ const CartTotal = ({ button, width, totalAmount }) => {
             }
         </div>
     )
-    :
-    null
+        :
+        null
 }
 
 export default CartTotal

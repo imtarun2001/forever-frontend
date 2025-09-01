@@ -64,7 +64,7 @@ export const ShopContextProvider = ({ children }) => {
         }
     };
 
-    
+
     // add product to the cart
     const addToCart = async (itemId, size) => {
         setLoading(true);
@@ -73,8 +73,8 @@ export const ShopContextProvider = ({ children }) => {
                 return toast.error('Please Select Size');
             }
             let cartData = structuredClone(cartProducts);
-            if(cartData[itemId]) {
-                if(cartData[itemId][size]) {
+            if (cartData[itemId]) {
+                if (cartData[itemId][size]) {
                     cartData[itemId][size] += 1;
                 } else {
                     cartData[itemId][size] = 1;
@@ -84,7 +84,7 @@ export const ShopContextProvider = ({ children }) => {
                 cartData[itemId][size] = 1;
             }
             setCartProducts(cartData);
-            const response = await addToCartHandler({itemId,size});
+            const response = await addToCartHandler({ itemId, size });
             toast.success(response.data.message);
         } catch (error) {
             toast.error(error.message);
@@ -99,8 +99,8 @@ export const ShopContextProvider = ({ children }) => {
         setLoading(true);
         try {
             let cartData = structuredClone(cartProducts);
-            if(quantity === 0) {
-                if(Object.keys(cartData[itemId]).length === 0) {
+            if (quantity === 0) {
+                if (Object.keys(cartData[itemId]).length === 0) {
                     delete cartData[itemId];
                 } else {
                     delete cartData[itemId][size];
@@ -109,7 +109,7 @@ export const ShopContextProvider = ({ children }) => {
                 cartData[itemId][size] = quantity;
             }
             setCartProducts(cartData);
-            const response = await updateCartHandler({itemId,size,quantity});
+            const response = await updateCartHandler({ itemId, size, quantity });
             toast.success(response.data.message);
         } catch (error) {
             toast.error(error.message);
@@ -123,19 +123,19 @@ export const ShopContextProvider = ({ children }) => {
     const cartTotal = () => {
         let totalAmount = 0;
         let totalItems = 0;
-        for(const itemId in cartProducts) {
+        for (const itemId in cartProducts) {
             const productInfo = products.find(p => p._id === itemId);
-            if(!productInfo) continue;
-            for(const size in cartProducts[itemId]) {
-                if(cartProducts[itemId][size] > 0) {
+            if (!productInfo) continue;
+            for (const size in cartProducts[itemId]) {
+                if (cartProducts[itemId][size] > 0) {
                     totalAmount += productInfo.price * cartProducts[itemId][size];
                     totalItems += cartProducts[itemId][size];
                 }
             }
         }
-        return {totalAmount,totalItems};
+        return { totalAmount, totalItems };
     }
-    
+
 
     // get cart data of an user
     const getCartDataOfAnUser = async () => {
@@ -175,9 +175,6 @@ export const ShopContextProvider = ({ children }) => {
         window.addEventListener("resize", resizeHandler);
         return () => window.removeEventListener("resize", resizeHandler);
     }, [screenWidth]);
-    
-
-    
 
 
 
@@ -190,8 +187,11 @@ export const ShopContextProvider = ({ children }) => {
 
 
 
-    
-    
+
+
+
+
+
 
 
 
@@ -201,11 +201,11 @@ export const ShopContextProvider = ({ children }) => {
         delivery_fee,
         navigate,
         location,
-        screenWidth,setScreenWidth,
-        introVideo,setIntroVideo,
+        screenWidth, setScreenWidth,
+        introVideo, setIntroVideo,
         loading, setLoading,
         products, setProducts,
-        product,setProduct,
+        product, setProduct,
         searchText, setSearchText,
         showSearchbar, setShowSearchbar,
         cartProducts, setCartProducts,

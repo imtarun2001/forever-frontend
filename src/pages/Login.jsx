@@ -3,10 +3,12 @@ import Title from "../components/common/Title"
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useUserContext } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
+import { useShopContext } from "../contexts/ShopContext";
 
 const Login = () => {
 
   const { current, setCurrent, userData, changeHandler, clickLoginOrSignupButtonHandler } = useUserContext();
+  const { loading } = useShopContext();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -49,7 +51,7 @@ const Login = () => {
 
         <button className={`w-full sm:w-2/3 mt-2 px-7 py-2 text-sm sm:text-base bg-black hover:bg-gray-800 active:bg-red-300 text-white active:text-black cursor-pointer rounded uppercase`} onClick={clickLoginOrSignupButtonHandler}>
           {
-            current === 'Log in' ? 'log in' : 'sign up'
+            loading ? `please wait` : current === 'Log in' ? 'log in' : 'sign up'
           }
         </button>
       </div>

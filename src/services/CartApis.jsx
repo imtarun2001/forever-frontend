@@ -1,8 +1,8 @@
 import { axiosInstance } from "./AxiosInstance";
 
-const addToCart = (data) => axiosInstance.post(`/cart/addToCart`,data);
+const addToCart = (data) => axiosInstance.post(`/cart/addToCart`, data);
 const getCartDataOfAnUser = () => axiosInstance.get(`/cart/getCartDataOfAnUser`);
-const updateCart = (data) => axiosInstance.put(`/cart/updateCart`,data);
+const updateCart = (data) => axiosInstance.put(`/cart/updateCart`, data);
 
 export const addToCartHandler = async (data) => {
     try {

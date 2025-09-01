@@ -6,40 +6,40 @@ import CartTotal from "../components/cartPage/CartTotal";
 
 const Cart = () => {
 
-  const { products, currency, cartProducts, updateCart, screenWidth, cartTotal } = useShopContext();
+  const { products, currency, cartProducts, updateCart, screenWidth, cartTotal, loading } = useShopContext();
 
-  const {totalAmount} = cartTotal();
+  const { totalAmount } = cartTotal();
 
-  const [cartData,setCartData] = useState([]);
+  const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    if(products.length > 0) {
+    if (products.length > 0) {
       const tempData = [];
-      for(const itemId in cartProducts) {
-        for(const size in cartProducts[itemId]) {
-          if(cartProducts[itemId][size] > 0) {
+      for (const itemId in cartProducts) {
+        for (const size in cartProducts[itemId]) {
+          if (cartProducts[itemId][size] > 0) {
             tempData.push(
-              {_id: itemId, size: size, quantity: cartProducts[itemId][size]}
+              { _id: itemId, size: size, quantity: cartProducts[itemId][size] }
             );
           }
         }
       }
       setCartData(tempData);
     }
-  },[cartProducts, products]);
+  }, [cartProducts, products]);
 
 
 
   return (
-      <div className="w-full border-t pt-10 flex flex-col items-start justify-center gap-5 mb-10">
+    <div className="w-full border-t pt-10 flex flex-col items-start justify-center gap-5 mb-10">
 
 
-        {/* -------------------------------my cart----------------------------- */}
-        <Title text1={'MY'} text2={'CART'} />
+      {/* -------------------------------my cart----------------------------- */}
+      <Title text1={'MY'} text2={'CART'} />
 
-        {
-          totalAmount ?
-          cartData.map((item,index) => {
+      {
+        totalAmount ?
+          cartData.map((item, index) => {
             const product = products.find((product) => product._id === item._id);
             return (
               <div key={index} className="w-full flex p-2.5 border-b border-gray-500">
@@ -55,7 +55,15 @@ const Cart = () => {
                     <input onChange={(event) => updateCart(item._id, item.size, event.target.value === '' || event.target.value === '0' ? null : Number(event.target.value))} type="number" name="quantity" defaultValue={item.quantity} min={1} max={10} className="border rounded outline-none text-center" />
                   </div>
 
-                  <button onClick={() => updateCart(item._id, item.size, 0)} className="w-1/2 sm:w-1/6 cursor-pointer hover:bg-pink-200 active:bg-pink-500 hover:font-semibold py-1.5 px-2.5 outline-none border rounded flex justify-center items-center gap-2"><span className={`text-sm ${screenWidth < 315 ? `hidden` : `block`}`}>Remove</span><img src={assets.bin_icon} alt="" className="w-4" /></button>
+                  <button disabled={loading ? true : false} onClick={() => updateCart(item._id, item.size, 0)}>
+                    {
+                      loading ? `Removing` :
+                        <div className="cursor-pointer hover:bg-pink-200 active:bg-pink-500 hover:font-semibold py-1.5 px-2.5 outline-none border rounded flex justify-center items-center gap-2">
+                          <span className={`text-sm ${screenWidth < 315 ? `hidden` : `block`}`}>Remove</span>
+                          <img src={assets.bin_icon} alt="" className="w-4" />
+                        </div>
+                    }
+                  </button>
                 </div>
               </div>
             )
@@ -64,16 +72,16 @@ const Cart = () => {
           <div className="h-[50vh] w-full flex justify-center items-center animate-pulse">
             <Title text1={'Your cart🛒'} center={true} desc={true} text2={'is empty'} />
           </div>
-        }
+      }
 
 
-        {/* -----------------------------cart total---------------------------- */}
-        <div className="w-full flex justify-center sm:justify-end items-center">
-          <CartTotal button={true} width={true} totalAmount={totalAmount}/>
-        </div>
-
+      {/* -----------------------------cart total---------------------------- */}
+      <div className="w-full flex justify-center sm:justify-end items-center">
+        <CartTotal button={true} width={true} totalAmount={totalAmount} />
       </div>
-    )
+
+    </div>
+  )
 }
 
 export default Cart

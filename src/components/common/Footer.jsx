@@ -7,7 +7,7 @@ const Footer = () => {
     const { location } = useShopContext();
 
     return (
-        <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `hidden` : ``}`}>
+        <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `hidden` : ``} text-wrap`}>
 
             <div className="w-full mt-10 mb-1 flex flex-col md:flex-row justify-between items-start md:gap-12">
                 {/* logo n text */}

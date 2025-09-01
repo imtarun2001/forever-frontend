@@ -11,6 +11,7 @@ import Product from "./pages/Product"
 import MyProfile from "./pages/MyProfile"
 import Collection from "./pages/Collection"
 import PlaceOrder from "./pages/PlaceOrder"
+import VerifyStripe from "./pages/VerifyStripe"
 import ForgotPassword from "./pages/ForgotPassword"
 import EmailVerification from "./pages/EmailVerification"
 import Navbar from "./components/common/Navbar"
@@ -21,7 +22,7 @@ import { useShopContext } from "./contexts/ShopContext"
 
 const App = () => {
 
-  const {introVideo,setIntroVideo,location,screenWidth} = useShopContext();
+  const { introVideo, setIntroVideo, location } = useShopContext();
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -34,7 +35,7 @@ const App = () => {
     if (introVideo) {
       timer = setTimeout(() => {
         setIntroVideo(false);
-      }, screenWidth < 350 ? 5000 : 3000);
+      }, 3000);
     }
     return () => clearTimeout(timer);
   }, [introVideo]);
@@ -45,7 +46,7 @@ const App = () => {
 
 
   return (
-    <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `px-0` : `px-2 sm:px-4 md:px-6 lg:px-8`} bg-white min-h-screen flex flex-col justify-start lg:justify-between items-center text-nowrap`}>
+    <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `px-0` : `px-2 sm:px-4 md:px-6 lg:px-8`} bg-white text-wrap min-h-screen flex flex-col justify-start lg:justify-between items-center`}>
 
       {/* navbar */}
       <Navbar />
@@ -64,10 +65,11 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders/:userId" element={<Orders />} />
-        <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/generate-otp" element={<Otp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify-email/:forgotPasswordTokenFromFrontend" element={<EmailVerification />} />
+        <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/generateOtp" element={<Otp />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/verifyEmail/:forgotPasswordTokenFromFrontend" element={<EmailVerification />} />
+        <Route path="/verify" element={<VerifyStripe />} />
       </Routes>
 
 
