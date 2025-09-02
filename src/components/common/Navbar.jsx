@@ -6,8 +6,8 @@ import { useUserContext } from '../../contexts/UserContext';
 
 const Navbar = () => {
 
-    const { setShowSearchbar, getCartDataOfAnUser, screenWidth, location, cartTotal } = useShopContext();
-    const { logoutUser, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
+    const { setShowSearchbar, screenWidth, location, cartTotal, accountType } = useShopContext();
+    const { customerLogout, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
 
     const { totalItems } = cartTotal();
 
@@ -36,7 +36,7 @@ const Navbar = () => {
                 <div className='w-1/3 flex flex-col justify-center items-center gap-5 px-5 md:px-10 py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>
                     <p className='w-full text-start text-wrap'>Do you really want to Logout ?</p>
                     <div className='w-full flex flex-col sm:flex-row justify-center sm:justify-end items-center gap-5 sm:gap-10'>
-                        <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={logoutUser}>Yes</button>
+                        <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={customerLogout}>Yes</button>
                         <button className='px-5 py-2 sm:py-3 text-sm sm:text-base border rounded bg-pink-300 hover:bg-pink-500 cursor-pointer' onClick={() => setLogoutModalOpen(false)}>No</button>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <Link className='relative' to={'/cart'} onClick={getCartDataOfAnUser}>
+                <Link className='relative' to={accountType !== null ? '/cart' : null}>
                     <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />
                     <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalItems}</p>
                 </Link>

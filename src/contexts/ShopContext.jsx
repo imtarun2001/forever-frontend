@@ -12,6 +12,7 @@ export const ShopContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [accountType, setAccountType] = useState(localStorage.getItem("accountType") ? localStorage.getItem("accountType") : null);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [introVideo, setIntroVideo] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -70,7 +71,12 @@ export const ShopContextProvider = ({ children }) => {
         setLoading(true);
         try {
             if (!size) {
-                return toast.error('Please Select Size');
+                toast.error('Please Select Size');
+                return;
+            }
+            if(accountType === null) {
+                toast.error(`login to avail the feature`);
+                return;
             }
             let cartData = structuredClone(cartProducts);
             if (cartData[itemId]) {
@@ -167,7 +173,7 @@ export const ShopContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts();
-        getCartDataOfAnUser();
+        if(accountType !== null) getCartDataOfAnUser();
     }, []);
 
     useEffect(() => {
@@ -201,6 +207,7 @@ export const ShopContextProvider = ({ children }) => {
         delivery_fee,
         navigate,
         location,
+        accountType, setAccountType,
         screenWidth, setScreenWidth,
         introVideo, setIntroVideo,
         loading, setLoading,

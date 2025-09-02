@@ -3,6 +3,9 @@ import { axiosInstance } from "./AxiosInstance";
 const getProducts = () => axiosInstance.get(`/product/getProducts`);
 const getProduct = (productId) => axiosInstance.get(`/product/getProduct/${productId}`);
 
+
+
+
 export const getProductsHandler = async () => {
     try {
         const response = await getProducts();
@@ -11,6 +14,9 @@ export const getProductsHandler = async () => {
         throw new Error(error.response?.data?.message || error.message);
     }
 }
+
+
+
 
 export const getProductHandler = async (productId) => {
     try {

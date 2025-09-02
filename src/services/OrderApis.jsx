@@ -5,6 +5,9 @@ const orderByStripe = (orderingUserData) => axiosInstance.post(`/order/orderBySt
 const verifyStripe = (data) => axiosInstance.put(`/order/verifyStripe`, data);
 const getOrdersOfAnUser = () => axiosInstance.get(`/order/getOrdersOfAnUser`);
 
+
+
+
 export const orderByCodHandler = async (orderingUserData) => {
     try {
         const response = await orderByCod(orderingUserData);
@@ -13,6 +16,9 @@ export const orderByCodHandler = async (orderingUserData) => {
         throw new Error(error.response?.data?.message || error.message);
     }
 }
+
+
+
 
 export const orderByStripeHandler = async (orderingUserData) => {
     try {
@@ -23,6 +29,9 @@ export const orderByStripeHandler = async (orderingUserData) => {
     }
 }
 
+
+
+
 export const verifyStripeHandler = async (data) => {
     try {
         const response = await verifyStripe(data);
@@ -31,6 +40,9 @@ export const verifyStripeHandler = async (data) => {
         throw new Error(error.response?.data?.message || error.message);
     }
 }
+
+
+
 
 export const getOrdersOfAnUserHandler = async () => {
     try {

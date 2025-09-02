@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useState } from "react";
 import { useShopContext } from "./ShopContext";
 import { generateOtpHandler } from "../services/OtpApis";
-import { loginUserHandler, logoutUserHandler, registerUserHandler } from "../services/UserApis";
+import { customerLoginHandler, customerLogoutHandler, registerUserHandler } from "../services/UserApis";
 
 const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
 
-    const { setCartProducts, setLoading } = useShopContext();
+    const { setCartProducts, setLoading, accountType, setAccountType } = useShopContext();
     const navigate = useNavigate();
 
     const [current, setCurrent] = useState('Log in');
@@ -57,16 +57,22 @@ export const UserContextProvider = ({ children }) => {
                 navigate('/generate-otp');
                 toast.success(response.data.message);
             } else {
-                const response = await loginUserHandler({ email: userData.email, password: userData.password });
-                navigate('/');
-                setUserData({
-                    name: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    otp: ''
-                });
-                toast.success(response.data.message);
+                if(accountType === null) {
+                    const response = await customerLoginHandler({ email: userData.email, password: userData.password });
+                    localStorage.setItem("accountType", response.data.data);
+                    setAccountType(response.data.data);
+                    navigate('/');
+                    setUserData({
+                        name: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                        otp: ''
+                    });
+                    toast.success(response.data.message);
+                } else {
+                    toast.error(`already logged in with an account`);
+                }
             }
         } catch (error) {
             toast.error(error.message);
@@ -101,15 +107,20 @@ export const UserContextProvider = ({ children }) => {
 
 
 
-    const logoutUser = async () => {
+    const customerLogout = async () => {
         setLoading(true);
         try {
-            const response = await logoutUserHandler();
-
-            setLogoutModalOpen(false);
-            navigate('/');
-            setCartProducts({});
-            toast.success(response.data.message);
+            if(accountType !== null) {
+                const response = await customerLogoutHandler();
+                localStorage.removeItem("accountType");
+                setAccountType(null);
+                setLogoutModalOpen(false);
+                navigate('/');
+                setCartProducts({});
+                toast.success(response.data.message);
+            } else {
+                toast.error(`log in first`);
+            }
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -139,7 +150,7 @@ export const UserContextProvider = ({ children }) => {
         changeHandler,
         clickLoginOrSignupButtonHandler,
         signupUser,
-        logoutUser
+        customerLogout
     };
 
     return <UserContext.Provider value={values}>

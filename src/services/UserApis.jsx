@@ -1,10 +1,13 @@
 import { axiosInstance } from "./AxiosInstance";
 
 const registerUser = (userData) => axiosInstance.post(`/user/registerUser`, userData);
-const loginUser = (userData) => axiosInstance.post(`/user/loginUser`, userData);
-const logoutUser = () => axiosInstance.post(`/user/logoutUser`);
+const customerLogin = (userData) => axiosInstance.post(`/user/customerLogin`, userData);
+const customerLogout = () => axiosInstance.post(`/user/customerLogout`);
 const forgotPasswordLinkToEmail = (userData) => axiosInstance.post(`/user/forgotPasswordLinkToEmail`, userData);
 const forgotPassword = (userData) => axiosInstance.post(`/user/forgotPassword`, userData);
+
+
+
 
 export const registerUserHandler = async (userData) => {
     try {
@@ -15,9 +18,12 @@ export const registerUserHandler = async (userData) => {
     }
 }
 
-export const loginUserHandler = async (userData) => {
+
+
+
+export const customerLoginHandler = async (userData) => {
     try {
-        const response = await loginUser(userData);
+        const response = await customerLogin(userData);
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.message || error.message);
@@ -25,14 +31,18 @@ export const loginUserHandler = async (userData) => {
 }
 
 
-export const logoutUserHandler = async () => {
+
+
+export const customerLogoutHandler = async () => {
     try {
-        const response = await logoutUser();
+        const response = await customerLogout();
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.message || error.message);
     }
 }
+
+
 
 
 export const forgotPasswordLinkToEmailHandler = async (userData) => {
@@ -43,6 +53,7 @@ export const forgotPasswordLinkToEmailHandler = async (userData) => {
         throw new Error(error.response?.data?.message || error.message);
     }
 }
+
 
 
 
