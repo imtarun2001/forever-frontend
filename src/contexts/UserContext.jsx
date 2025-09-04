@@ -54,7 +54,7 @@ export const UserContextProvider = ({ children }) => {
                     return toast.error(`Password and confirm Password must be same`);
                 }
                 const response = await generateOtpHandler({ email: userData.email });
-                navigate('/generate-otp');
+                navigate('/generateOtp');
                 toast.success(response.data.message);
             } else {
                 if(accountType === null) {
