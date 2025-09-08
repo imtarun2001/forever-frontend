@@ -173,14 +173,17 @@ export const ShopContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts();
-        if(accountType !== null) getCartDataOfAnUser();
     }, []);
+    
+    useEffect(() => {
+        if(accountType !== null) getCartDataOfAnUser();
+    },[accountType]);
 
     useEffect(() => {
         const resizeHandler = () => setScreenWidth(window.innerWidth);
         window.addEventListener("resize", resizeHandler);
         return () => window.removeEventListener("resize", resizeHandler);
-    }, [screenWidth]);
+    }, []);
 
 
 

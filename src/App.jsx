@@ -46,7 +46,7 @@ const App = () => {
 
 
   return (
-    <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `px-0` : `px-2 sm:px-4 md:px-6 lg:px-8`} bg-white text-wrap min-h-screen flex flex-col justify-start lg:justify-between items-center`}>
+    <div className={`${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgotPassword` ? `px-0` : `px-2 sm:px-4 md:px-6 lg:px-8`} bg-white text-wrap min-h-screen flex flex-col justify-start lg:justify-between items-center`}>
 
       {/* navbar */}
       <Navbar />

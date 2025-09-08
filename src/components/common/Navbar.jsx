@@ -30,7 +30,7 @@ const Navbar = () => {
     }, [logoutModalOpen]);
 
     return (
-        <div className={`w-full flex items-center py-5 font-medium ${screenWidth < 350 ? `flex-col justify-center gap-5` : `flex-row justify-between`} ${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgot-password` ? `hidden` : ``}`}>
+        <div className={`w-full flex items-center py-5 font-medium ${screenWidth < 350 ? `flex-col justify-center gap-5` : `flex-row justify-between`} ${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgotPassword` ? `hidden` : ``}`}>
 
             <div className={`fixed left-0 top-0 w-full h-screen z-200 bg-black opacity-80 ${logoutModalOpen ? `flex justify-center items-center` : `hidden`}`}>
                 <div className='w-1/3 flex flex-col justify-center items-center gap-5 px-5 md:px-10 py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>

@@ -40,7 +40,7 @@ const Login = () => {
         }
 
         <p className="w-full sm:w-2/3 flex justify-between items-center text-sm">
-          <Link to="/forgot-password" className="cursor-pointer text-red-300 hover:text-red-400">Forgot Password?</Link>
+          <Link to="/forgotPassword" className="cursor-pointer text-red-300 hover:text-red-400">Forgot Password?</Link>
           {
             current === 'Log in' ?
               <span>New User? <u className="hover:text-sky-600 cursor-pointer" onClick={() => setCurrent('Sign up')}>Sign up</u></span>
