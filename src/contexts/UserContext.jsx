@@ -9,7 +9,7 @@ const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
 
-    const { setCartProducts, setLoading, accountType, setAccountType } = useShopContext();
+    const { setCartProducts, setLoading, isCustomer, setIsCustomer } = useShopContext();
     const navigate = useNavigate();
 
     const [current, setCurrent] = useState('Log in');
@@ -57,10 +57,10 @@ export const UserContextProvider = ({ children }) => {
                 navigate('/generateOtp');
                 toast.success(response.data.message);
             } else {
-                if(accountType === null) {
+                if(isCustomer === null) {
                     const response = await customerLoginHandler({ email: userData.email, password: userData.password });
-                    localStorage.setItem("accountType", response.data.data);
-                    setAccountType(response.data.data);
+                    localStorage.setItem("isCustomer", response.data.data);
+                    setIsCustomer(response.data.data);
                     navigate('/');
                     setUserData({
                         name: '',
@@ -110,10 +110,10 @@ export const UserContextProvider = ({ children }) => {
     const customerLogout = async () => {
         setLoading(true);
         try {
-            if(accountType !== null) {
+            if(isCustomer !== null) {
                 const response = await customerLogoutHandler();
-                localStorage.removeItem("accountType");
-                setAccountType(null);
+                localStorage.removeItem("isCustomer");
+                setIsCustomer(null);
                 setLogoutModalOpen(false);
                 navigate('/');
                 setCartProducts({});

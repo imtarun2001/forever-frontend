@@ -6,7 +6,7 @@ import { useUserContext } from '../../contexts/UserContext';
 
 const Navbar = () => {
 
-    const { setShowSearchbar, screenWidth, location, cartTotal, accountType } = useShopContext();
+    const { setShowSearchbar, screenWidth, location, cartTotal, isCustomer } = useShopContext();
     const { customerLogout, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
 
     const { totalItems } = cartTotal();
@@ -75,7 +75,7 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <Link className='relative' to={accountType !== null ? '/cart' : null}>
+                <Link className='relative' to={isCustomer !== null ? '/cart' : null}>
                     <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />
                     <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalItems}</p>
                 </Link>

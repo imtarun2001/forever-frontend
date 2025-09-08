@@ -12,7 +12,7 @@ export const ShopContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [accountType, setAccountType] = useState(localStorage.getItem("accountType") ? localStorage.getItem("accountType") : null);
+    const [isCustomer, setIsCustomer] = useState(localStorage.getItem("isCustomer"));
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [introVideo, setIntroVideo] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -74,7 +74,7 @@ export const ShopContextProvider = ({ children }) => {
                 toast.error('Please Select Size');
                 return;
             }
-            if(accountType === null) {
+            if(isCustomer === null) {
                 toast.error(`login to avail the feature`);
                 return;
             }
@@ -176,8 +176,8 @@ export const ShopContextProvider = ({ children }) => {
     }, []);
     
     useEffect(() => {
-        if(accountType !== null) getCartDataOfAnUser();
-    },[accountType]);
+        if(isCustomer !== null) getCartDataOfAnUser();
+    },[isCustomer]);
 
     useEffect(() => {
         const resizeHandler = () => setScreenWidth(window.innerWidth);
@@ -210,7 +210,7 @@ export const ShopContextProvider = ({ children }) => {
         delivery_fee,
         navigate,
         location,
-        accountType, setAccountType,
+        isCustomer, setIsCustomer,
         screenWidth, setScreenWidth,
         introVideo, setIntroVideo,
         loading, setLoading,
