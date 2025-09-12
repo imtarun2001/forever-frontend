@@ -92,7 +92,7 @@ const PlaceOrder = () => {
     });
   }
 
-  const orderByCod = async (event) => {
+  const orderProduct = async (event) => {
     setLoading(true);
     try {
       event.preventDefault();
@@ -124,9 +124,8 @@ const PlaceOrder = () => {
 
       if (orderingUserData.paymentMethod === 'cod') {
         const response = await orderByCodHandler(orderPayload);
-        const order = response.data.data;
+        navigate(`/orders/${String(response.data.data)}`);
         setCartProducts([]);
-        navigate(`/orders/${String(order.user)}`);
         toast.success(response.data.message);
       }
 
@@ -160,7 +159,7 @@ const PlaceOrder = () => {
   }
 
   return (
-    <form onSubmit={orderByCod} className="w-full flex flex-col lg:flex-row justify-center items-start gap-5 pt-10 sm:pt-15 sm:pb-10 border-t">
+    <form onSubmit={orderProduct} className="w-full flex flex-col lg:flex-row justify-center items-start gap-5 pt-10 sm:pt-15 sm:pb-10 border-t">
       {/* left side */}
       <div className="flex flex-col justify-center items-center gap-4 w-full md:w-1/2">
         <div className="w-full flex justify-start items-center">

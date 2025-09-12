@@ -6,7 +6,7 @@ import { useUserContext } from '../../contexts/UserContext';
 
 const Navbar = () => {
 
-    const { setShowSearchbar, screenWidth, location, cartTotal, isCustomer } = useShopContext();
+    const { setShowSearchbar, screenWidth, location, cartTotal, userId } = useShopContext();
     const { customerLogout, logoutModalOpen, setLogoutModalOpen, navigate } = useUserContext();
 
     const { totalItems } = cartTotal();
@@ -18,7 +18,8 @@ const Navbar = () => {
 
     const dropDownHandler = (ele) => {
         if (ele === 'Logout') setLogoutModalOpen(true);
-        if (ele === 'Orders') navigate('/orders');
+        if (ele === 'Orders') navigate(`/orders/${userId}`);
+        if (ele === 'My Profile') navigate(`/myProfile/${userId}`);
     }
 
     useEffect(() => {
@@ -75,7 +76,7 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <Link className='relative' to={isCustomer !== null ? '/cart' : null}>
+                <Link className='relative' to={userId !== null ? `/cart/${userId}` : null}>
                     <img src={assets.cart_icon} alt="" className='w-5 min-w-5' />
                     <p className='bg-black rounded-full absolute left-2 top-2.5 text-white w-4 text-center leading-4 aspect-square text-[8px]'>{totalItems}</p>
                 </Link>
@@ -102,11 +103,11 @@ const Navbar = () => {
                         [
                             {
                                 title: 'My Profile',
-                                path: '/my-profile'
+                                path: `/my-profile/${userId}`
                             },
                             {
                                 title: 'Orders',
-                                path: '/orders'
+                                path: `/orders/${userId}`
                             },
                             {
                                 title: 'Logout',

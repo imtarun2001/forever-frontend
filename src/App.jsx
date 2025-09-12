@@ -61,11 +61,11 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/product/:productId" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart/:userId" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/placeOrder/:userId" element={<PlaceOrder />} />
         <Route path="/orders/:userId" element={<Orders />} />
-        <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/myProfile/:userId" element={<MyProfile />} />
         <Route path="/generateOtp" element={<Otp />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/verifyEmail/:forgotPasswordTokenFromFrontend" element={<EmailVerification />} />

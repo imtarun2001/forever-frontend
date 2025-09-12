@@ -1,10 +1,24 @@
 import { axiosInstance } from "./AxiosInstance";
 
+
+const checkUser = () => axiosInstance.get(`/user/checkUser`);
 const registerUser = (userData) => axiosInstance.post(`/user/registerUser`, userData);
 const customerLogin = (userData) => axiosInstance.post(`/user/customerLogin`, userData);
 const customerLogout = () => axiosInstance.post(`/user/customerLogout`);
 const forgotPasswordLinkToEmail = (userData) => axiosInstance.post(`/user/forgotPasswordLinkToEmail`, userData);
 const forgotPassword = (userData) => axiosInstance.post(`/user/forgotPassword`, userData);
+
+
+
+
+export const checkUserHandler = async () => {
+    try {
+        const response = await checkUser();
+        return response;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+    }
+}
 
 
 

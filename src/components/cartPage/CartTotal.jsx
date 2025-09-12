@@ -4,7 +4,7 @@ import Title from "../common/Title";
 
 const CartTotal = ({ button, width, totalAmount }) => {
 
-    const { delivery_fee, currency } = useShopContext();
+    const { delivery_fee, currency, userId } = useShopContext();
 
     return totalAmount ? (
         <div className={`p-5 w-full sm:w-1/2 ${width && `md:w-1/3`} rounded-xl bg-pink-100 sm:drop-shadow-sm sm:drop-shadow-black flex flex-col justify-center items-start gap-5`}>
@@ -24,7 +24,7 @@ const CartTotal = ({ button, width, totalAmount }) => {
                 </div>
             </div>
             {
-                button && <Button navigateTo={'/place-order'} text={'proceed to checkout'} />
+                button && <Button navigateTo={`/placeOrder/${userId}`} text={'proceed to checkout'} />
             }
         </div>
     )

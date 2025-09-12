@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getProductHandler, getProductsHandler } from "../services/ProductApis";
 import { addToCartHandler, getCartDataOfAnUserHandler, updateCartHandler } from "../services/CartApis";
+import { checkUserHandler } from "../services/UserApis";
 
 const ShopContext = createContext();
 
@@ -12,7 +13,7 @@ export const ShopContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [isCustomer, setIsCustomer] = useState(localStorage.getItem("isCustomer"));
+    const [userId, setUserId] = useState(localStorage.getItem("userId"));
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [introVideo, setIntroVideo] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -71,12 +72,11 @@ export const ShopContextProvider = ({ children }) => {
         setLoading(true);
         try {
             if (!size) {
-                toast.error('Please Select Size');
+                toast.error('please select size');
                 return;
             }
-            if(isCustomer === null) {
-                toast.error(`login to avail the feature`);
-                return;
+            if(userId === null) {
+                toast.error('login first');
             }
             let cartData = structuredClone(cartProducts);
             if (cartData[itemId]) {
@@ -159,6 +159,19 @@ export const ShopContextProvider = ({ children }) => {
 
 
 
+    // check user logged in or not and accordingly remove the userId from localstorage
+    const checkUser = async () => {
+        try {
+            const response = await checkUserHandler();
+            setUserId(response.data.data);
+            localStorage.setItem(response.data.data);
+        } catch (error) {
+            localStorage.removeItem("userId");
+            setUserId(null);
+        }
+    }
+
+
 
 
 
@@ -173,11 +186,12 @@ export const ShopContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts();
+        if(userId) checkUser();
     }, []);
-    
+
     useEffect(() => {
-        if(isCustomer !== null) getCartDataOfAnUser();
-    },[isCustomer]);
+        if (userId && location.pathname === `/cart/${userId}`) getCartDataOfAnUser();
+    }, [userId, location.pathname]);
 
     useEffect(() => {
         const resizeHandler = () => setScreenWidth(window.innerWidth);
@@ -210,7 +224,7 @@ export const ShopContextProvider = ({ children }) => {
         delivery_fee,
         navigate,
         location,
-        isCustomer, setIsCustomer,
+        userId, setUserId,
         screenWidth, setScreenWidth,
         introVideo, setIntroVideo,
         loading, setLoading,
