@@ -39,7 +39,7 @@ const Login = () => {
           </div>
         }
 
-        <p className="w-full sm:w-2/3 flex justify-between items-center text-sm">
+        <p className="w-full sm:w-2/3 flex flex-row sm:flex-col md:flex-row justify-between items-center sm:gap-2.5 md:gap-0 text-sm text-nowrap">
           <Link to="/forgotPassword" className="cursor-pointer text-red-300 hover:text-red-400">Forgot Password?</Link>
           {
             current === 'Log in' ?

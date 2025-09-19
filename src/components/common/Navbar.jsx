@@ -33,6 +33,8 @@ const Navbar = () => {
     return (
         <div className={`w-full flex items-center py-5 font-medium ${screenWidth < 350 ? `flex-col justify-center gap-5` : `flex-row justify-between`} ${matchPath(`/verify-email/:forgotPasswordTokenFromFrontend`, location.pathname) || location.pathname === `/forgotPassword` ? `hidden` : ``}`}>
 
+
+            {/* ----------------------------------------logout modal------------------------------------ */}
             <div className={`fixed left-0 top-0 w-full h-screen z-200 bg-black opacity-80 ${logoutModalOpen ? `flex justify-center items-center` : `hidden`}`}>
                 <div className='w-1/3 flex flex-col justify-center items-center gap-5 px-5 md:px-10 py-5 md:py-10 rounded-md bg-sky-50' ref={logoutModalOpenRef}>
                     <p className='w-full text-start text-wrap'>Do you really want to Logout ?</p>
@@ -56,17 +58,21 @@ const Navbar = () => {
                             <span className="cursor-pointer">{menu}</span>
                             <hr className={`w-2/3 h-[1.5px] border-none bg-gray-700 hidden`} />
                         </NavLink>
-                    )}
+                    )
+                }
             </div>
 
+
             {/* ------------------------------search, profile and cart icon------------------------------------ */}
-            <div className={`flex justify-between items-center gap-5 sm:gap-10 ${screenWidth < 350 ? `w-full bg-pink-300 rounded py-2 px-4` : `w-auto`}`}>
+            <div className={`flex justify-center items-center gap-5 ${screenWidth < 350 ? `w-full bg-pink-300 rounded py-2 px-4` : `w-auto`}`}>
+                {/* admin panel */}
+                <div className='hidden md:block rounded-2xl border px-2.5 py-1.5 tracking-wider text-nowrap'><a href="https://forever-admin-brown-one.vercel.app/" target='_blank'>ADMIN PANEL</a></div>
                 <img src={assets.search_icon} alt="" className='w-5 cursor-pointer' onClick={() => setShowSearchbar(prev => !prev)} />
                 <div className='group relative'>
                     <Link to={`/login`}><img src={assets.profile_icon} alt="" className='w-5 min-w-5 cursor-pointer' /></Link>
                     <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
                         {
-                            <div className='hidden sm:flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
+                            userId && <div className='hidden sm:flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                                 {
                                     ['My Profile', 'Orders', 'Logout'].map((ele) => (
                                         <p key={ele} className='cursor-pointer hover:text-black' onClick={() => dropDownHandler(ele)}>{ele}</p>
@@ -100,7 +106,7 @@ const Navbar = () => {
                         ))
                     }
                     {
-                        [
+                        userId && [
                             {
                                 title: 'My Profile',
                                 path: `/my-profile/${userId}`
