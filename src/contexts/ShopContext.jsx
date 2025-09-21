@@ -164,7 +164,7 @@ export const ShopContextProvider = ({ children }) => {
         try {
             const response = await checkUserHandler();
             setUserId(response.data.data);
-            localStorage.setItem(response.data.data);
+            localStorage.setItem("userId",response.data.data);
         } catch (error) {
             localStorage.removeItem("userId");
             setUserId(null);
